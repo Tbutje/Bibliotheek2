@@ -64,7 +64,38 @@ public class Database {
         }
         
         return result;
-        
     } 
     
+    // functies voor mutaties database
+    public void insertCategorie(Categorie categorie) throws NamingException, SQLException{
+        
+    }
+    
+    public void updateCategorie(Categorie categorie) throws NamingException, SQLException{
+        
+    }
+    
+    public void verwijderCategorie(Categorie categorie) throws NamingException, SQLException{
+        
+        String sql = "delete from Categorien where Categorie_ID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try{
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            // dit is 1 omdat je het eerste vraagteken aanpast
+            preparedStatement.setInt(1,categorie.getCategorieID());
+            preparedStatement.executeQuery();
+          
+            }finally{
+            if (preparedStatement != null && !preparedStatement.isClosed()){
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        
+    }
 }

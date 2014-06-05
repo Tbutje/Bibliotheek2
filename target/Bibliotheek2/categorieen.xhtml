@@ -51,13 +51,14 @@
                                      rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
                     <br/>
                     <h:commandButton value="Verwijderen" 
-                                     actionListener = "#{categorieenBean.verwijderCategorie()}"
+                                     actionListener = "#{categorieenBean.verwijderCategorie(item.categorieID)}"
                                      styleClass="knop"
                                       rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
 
                 </h:panelGroup>
             </h:panelGrid>
             <h:commandButton value="Nieuw" actionListener = "#{categorieenBean.nieuweCategorie()}" styleClass="knop"/>
+            <h:messages/>
 
             <p/>
             <h:outputLabel value="Geselecteerd : #{categorieenBean.geselecteerdeCategorie.omschrijving}"

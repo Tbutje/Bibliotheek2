@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.naming.NamingException;
 
 /**
@@ -63,8 +65,19 @@ public class CategorieenBean implements Serializable {
      }
     }
     
-    public void verwijderCategorie(){
+    public void verwijderCategorie(Integer categorieID){
         
+          try {
+                Database database = new Database();
+                database.verwijderCategorie(this.geselecteerdeCategorie);
+            } catch (SQLException | NamingException ex){
+                 LOGGER.log(Level.SEVERE,"Error {0}",ex);
+                System.out.println(ex.getMessage());
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("De database kan niet worden benaderd"));
+            }
+          //zet categorieen weer op nulll zodat deze weer opnieuw uit de db gehaald worden
+          this.categorieen = null;
     }
     
     public void wijzigCategorie(){
