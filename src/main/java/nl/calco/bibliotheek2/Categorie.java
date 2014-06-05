@@ -6,11 +6,13 @@
 
 package nl.calco.bibliotheek2;
 
+import java.io.Serializable;
+
 /**
  *
  * @author TKoole
  */
-public class Categorie {
+public class Categorie implements Serializable{
     private Integer categorieID;
     private String omschrijving;
 

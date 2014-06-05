@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.Dependent;
@@ -80,11 +81,16 @@ public class CategorieenBean implements Serializable {
           this.categorieen = null;
     }
     
-    public void wijzigCategorie(){
+    
+    public void nieuweCategorie(){
         
     }
     
-    public void nieuweCategorie(){
+    public String wijzigCategorie(){
+         FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("categorie", geselecteerdeCategorie);
+        return "edit";
         
     }
 }
