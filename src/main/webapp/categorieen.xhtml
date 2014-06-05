@@ -44,15 +44,19 @@
                     </div>
                 </h:panelGroup>
                 <h:panelGroup>
-
+                    <!--knop voor wijzigen categorie-->
                     <h:commandButton value="Wijzigen" 
                                      actionListener = "#{categorieenBean.wijzigCategorie()}" 
                                      styleClass="knop"
                                      rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
                     <br/>
+                    
+                    <!--knop voor verwijderen categorie-->
                     <h:commandButton value="Verwijderen" 
                                      actionListener = "#{categorieenBean.verwijderCategorie(item.categorieID)}"
                                      styleClass="knop"
+                                     onclick="return confirm ('Weet u zeker dat u \n\
+                                     #{categorieenBean.geselecteerdeCategorie.omschrijving} wilt verwijderen?')"
                                       rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
 
                 </h:panelGroup>
