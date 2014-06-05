@@ -1,0 +1,57 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2-jun-2014, 15:19:26
+    Author     : TKoole
+*/
+
+/* de rest erf hier van */
+body{
+    font-family: Sans-serif;
+}
+
+.kop
+{
+    font-size:30pt;
+}
+
+.grijze_achtergrond
+{
+    background-color: #ccccff
+}
+
+.table
+{
+    width: 100%;
+    border-collapse: collapse; 
+    background:white;
+
+}
+/* td staat voor standard talbe, th voor header table */
+.table td {
+    padding: 2px;
+    border: 1px solid #ccccff; /* let's apply borders */
+}
+
+.tableHeader
+{
+    text-align: left;
+    background: linear-gradient(#eeeeff, #ccccff);
+}
+
+.tableRow
+{
+    background:white;
+}
+
+
+.knop{
+    width:100px;
+}
+
+.knoppenOnder td{
+    vertical-align: bottom;
+}

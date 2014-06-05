@@ -1,0 +1,69 @@
+<?html version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Categorieen</title>
+        <link href="bibliostyle.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    
+    <h:form>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Categorieen" styleClass="kop"/>
+            <p/>
+            <!-- dit zorgt voor 2 colommen naast elkaar voor tabel en knop-->
+            <h:panelGrid columns ="2" styleClass="knoppenOnder">
+                <h:panelGroup>
+                    <!--dit zorgt voor de scroll bars -->
+                    <div style="width: 270px; 
+                         height: 400px; 
+                         display: inline-block; 
+                         overflow-x: auto;
+                         overflow-y: auto;">
+
+                        <h:dataTable value="#{categorieenBean.categorieen}"
+                                     styleClass ="table"
+                                     headerClass="tableHeader" 
+                                     rowClasses="tableRow"
+                                     style="width: 270px; height: 400px;"
+                                     var="item">
+
+                            <h:column>
+                                <f:facet name ="header">
+                                    <h:outputLabel value ="Omschrijving"/>
+                                </f:facet>
+                                <h:commandLink value ="#{item.omschrijving}" action="#{categorieenBean.selecteer(item.categorieID)}"/>
+
+                            </h:column>
+
+
+                        </h:dataTable>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup>
+
+                    <h:commandButton value="Wijzigen" 
+                                     actionListener = "#{categorieenBean.wijzigCategorie()}" 
+                                     styleClass="knop"
+                                     rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
+                    <br/>
+                    <h:commandButton value="Verwijderen" 
+                                     actionListener = "#{categorieenBean.verwijderCategorie()}"
+                                     styleClass="knop"
+                                      rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
+
+                </h:panelGroup>
+            </h:panelGrid>
+            <h:commandButton value="Nieuw" actionListener = "#{categorieenBean.nieuweCategorie()}" styleClass="knop"/>
+
+            <p/>
+            <h:outputLabel value="Geselecteerd : #{categorieenBean.geselecteerdeCategorie.omschrijving}"
+                           rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
+        </h:body>
+    </h:form>
+
+</html>
+
