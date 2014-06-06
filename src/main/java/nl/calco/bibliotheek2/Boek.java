@@ -22,6 +22,15 @@ public class Boek implements Serializable{
     private String isbn;
     private String locatie;
     private Integer categorie_ID;
+    private Categorie categorie;
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
 
     public Integer getBoek_ID() {
         return boek_ID;

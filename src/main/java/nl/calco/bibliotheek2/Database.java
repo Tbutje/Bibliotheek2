@@ -170,9 +170,9 @@ public class Database {
                 boek.setTitel(resultSet.getString("Titel"));
                 boek.setAuteur(resultSet.getString("Auteur"));
                 boek.setUitgeverij(resultSet.getString("Uitgeverij"));
-                boek.setIsbn(resultSet.getString("Auteur"));
-                boek.setLocatie(resultSet.getString("Auteur"));
-                boek.setCategorie_ID(resultSet.getInt("Auteur"));
+                boek.setIsbn(resultSet.getString("ISBN"));
+                boek.setLocatie(resultSet.getString("Locatie"));
+                boek.setCategorie_ID(resultSet.getInt("Categorie_ID"));
 
                 result.add(boek);
             }

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Boeken</title>
+        <link href="bibliostyle.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:form>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Calco Bibliotheek" styleClass="kop"/>
+            <h:panelGrid columns = "4">
+                Zoekterm (deel van boeknummer, titel, auteur of ISBN)
+                <!--filter input hier-->
+                <h:inputText value = "#{boekenBean.filter}" size="50" maxlength="40"/>
+                <h:commandButton value="Zoek" action = "#{boekenBean.reloadBoeken()}" styleClass="knop"/>
+                <h:commandButton value="Reset" action = "#{boekenBean.resetBoeken()}" styleClass="knop"/>
+            </h:panelGrid>
+            <!-- boeke tabel hier -->
+            <div style="width: 1000px; 
+                 height: 1000px; 
+                 display: inline-block; 
+                 overflow-x: auto;
+                 overflow-y: auto;">
+
+                <h:dataTable value="#{boekenBean.boeken}"
+                             styleClass ="table"
+                             headerClass="tableHeader" 
+                             rowClasses="tableRow"
+                             style="width: 1000px"
+                             var="item">
+
+                    <!-- colom keuzes hier. item is de row-->
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="BoekNummer"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.boekNummer}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Titel"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.titel}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Auteur"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.auteur}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Uitgeverij"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.uitgeverij}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="ISBN"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.isbn}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Locatie"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.locatie}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Titel"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.categorie_ID}"/>
+                    </h:column>
+
+
+                </h:dataTable>
+            </div>
+
+            <h:messages/>
+        </h:body>
+    </h:form>
+</html>
+
