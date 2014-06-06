@@ -137,4 +137,57 @@ public class Database {
         }
 
     }
+
+    //functies voor hoofdscherm
+    public List<Boek> getBoeken(String filter) throws SQLException, NamingException {
+        List<Boek> result = new ArrayList<>();
+        filter = "%" + (filter == null ? "" : filter) + "%";
+        String sql = "select * from Boeken"
+                + " where boekNummer like ?"
+                + " or titel like ?"
+                + " or auteur like ?"
+                + " or isbn like ?"
+                + " order by boeknummer";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, filter);
+            preparedStatement.setString(2, filter);
+            preparedStatement.setString(3, filter);
+            preparedStatement.setString(4, filter);
+            
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Boek boek = new Boek();
+                boek.setBoek_ID(resultSet.getInt("Boek_ID"));
+                boek.setBoekNummer(resultSet.getString("BoekNummer"));
+                boek.setTitel(resultSet.getString("Titel"));
+                boek.setAuteur(resultSet.getString("Auteur"));
+                boek.setUitgeverij(resultSet.getString("Uitgeverij"));
+                boek.setIsbn(resultSet.getString("Auteur"));
+                boek.setLocatie(resultSet.getString("Auteur"));
+                boek.setCategorie_ID(resultSet.getInt("Auteur"));
+
+                result.add(boek);
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return result;
+    }
 }
