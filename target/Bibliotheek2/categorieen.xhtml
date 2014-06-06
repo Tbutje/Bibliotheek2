@@ -46,7 +46,7 @@
                 <h:panelGroup>
                     <!--knop voor wijzigen categorie-->
                     <h:commandButton value="Wijzigen" 
-                                     actionListener = "#{categorieenBean.wijzigCategorie()}" 
+                                     action = "#{categorieenBean.wijzigCategorie()}" 
                                      styleClass="knop"
                                      rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
                     <br/>
@@ -61,7 +61,7 @@
 
                 </h:panelGroup>
             </h:panelGrid>
-            <h:commandButton value="Nieuw" actionListener = "#{categorieenBean.nieuweCategorie()}" styleClass="knop"/>
+            <h:commandButton value="Nieuw" action = "#{categorieenBean.nieuweCategorie()}" styleClass="knop"/>
             <h:messages/>
 
             <p/>

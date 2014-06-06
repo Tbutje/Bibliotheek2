@@ -82,7 +82,14 @@ public class CategorieenBean implements Serializable {
     }
     
     
-    public void nieuweCategorie(){
+    public String nieuweCategorie(){
+        Categorie nieuweCategorie = new Categorie();
+        nieuweCategorie.setOmschrijving("");
+        nieuweCategorie.setCategorieID(null);
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("categorie", nieuweCategorie);
+        return "edit";
         
     }
     
