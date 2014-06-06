@@ -40,17 +40,7 @@ public class BoekenBean implements Serializable {
     }
 
     public List<Boek> getBoeken() {
-        // check if empty, if it is then fill with database
 
-        if (this.boeken == null) {
-            try {
-                Database database = new Database();
-                this.boeken = database.getBoeken(this.filter);
-            } catch (SQLException | NamingException ex) {
-                LOGGER.log(Level.SEVERE, "Error {0}", ex);
-                System.out.println(ex.getMessage());
-            }
-        }
         return this.boeken;
     }
 
@@ -65,6 +55,8 @@ public class BoekenBean implements Serializable {
     }
 
     public void resetBoeken() {
+        this.filter = "";
+        this.boeken = null;
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }

@@ -143,6 +143,8 @@ public class Database {
         List<Boek> result = new ArrayList<>();
         filter = "%" + (filter == null ? "" : filter) + "%";
         String sql = "select * from Boeken"
+                + " left join Categorien"
+                + " on Boeken.Categorie_ID = Categorien.Categorie_ID"
                 + " where boekNummer like ?"
                 + " or titel like ?"
                 + " or auteur like ?"
@@ -173,6 +175,7 @@ public class Database {
                 boek.setIsbn(resultSet.getString("ISBN"));
                 boek.setLocatie(resultSet.getString("Locatie"));
                 boek.setCategorie_ID(resultSet.getInt("Categorie_ID"));
+                boek.setCategorieOmschrijving(resultSet.getString("Omschrijving"));
 
                 result.add(boek);
             }

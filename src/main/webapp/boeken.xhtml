@@ -19,19 +19,27 @@
                 <h:commandButton value="Zoek" action = "#{boekenBean.reloadBoeken()}" styleClass="knop"/>
                 <h:commandButton value="Reset" action = "#{boekenBean.resetBoeken()}" styleClass="knop"/>
             </h:panelGrid>
-            <!-- boeke tabel hier -->
-            <div style="width: 1000px; 
-                 height: 1000px; 
+            
+            <!--display dit als de boekenlijst leeg is en er geen tabel is-->
+             <h:outputLabel value="Geen resultaten gevonden" rendered="#{empty boekenBean.boeken}" />
+            
+            <!-- boek tabel hier -->
+            <div style="width: 1500px; 
+                 height: 750px; 
                  display: inline-block; 
                  overflow-x: auto;
-                 overflow-y: auto;">
+                 overflow-y: auto;"
+                 rendered="#{not empty boekenBean.boeken}"
+                 >
 
                 <h:dataTable value="#{boekenBean.boeken}"
                              styleClass ="table"
                              headerClass="tableHeader" 
                              rowClasses="tableRow"
-                             style="width: 1000px"
-                             var="item">
+                             style="width: 1500px"
+                             var="item"
+                             rendered="#{not empty boekenBean.boeken}"
+                             >
 
                     <!-- colom keuzes hier. item is de row-->
                     <h:column>
@@ -82,11 +90,20 @@
                         </f:facet>
                         <h:outputLabel value ="#{item.categorie_ID}"/>
                     </h:column>
+                    
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Omschrijving"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.categorieOmschrijving}"/>
+                    </h:column>
 
 
                 </h:dataTable>
             </div>
-
+            
+            
+            <!--deze displayed error berichten etc.-->
             <h:messages/>
         </h:body>
     </h:form>
