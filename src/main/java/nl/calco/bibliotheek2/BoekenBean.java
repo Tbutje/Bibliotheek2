@@ -8,6 +8,7 @@ package nl.calco.bibliotheek2;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
@@ -30,6 +31,11 @@ public class BoekenBean implements Serializable {
 
     private List<Boek> boeken = null;
     private String filter = "";
+    private Boek geselecteerdBoek;
+
+    public Boek getGeselecteerdBoek() {
+        return geselecteerdBoek;
+    }
 
     public String getFilter() {
         return filter;
@@ -57,9 +63,52 @@ public class BoekenBean implements Serializable {
     public void resetBoeken() {
         this.filter = "";
         this.boeken = null;
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    }
+
+    public void uitlenenInnemen() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
 
-        
+    public void exemplaarToevoegen() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    }
+
+    public void titelToevoegen() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    }
+
+    public String categorien() {
+        return "categorieen";
+    }
+
+    public void overzichten() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    }
+
+    public void medewerkers() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    }
+    
+    
+    // deze functie is om een boek te selecteren
+        public void selecteer(Integer boek_ID) {
+        // gebruik dit om een omschrijving te selecteren
+
+        for (Boek boek : boeken) {
+            if (boek.getBoek_ID().equals(boek_ID)) {
+                this.geselecteerdBoek = boek;
+                break;
+            }
+        }
+    }
+    
+    
+
 }

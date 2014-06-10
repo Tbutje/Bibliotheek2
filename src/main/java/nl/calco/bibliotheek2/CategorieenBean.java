@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nl.calco.bibliotheek2;
 
 import java.io.Serializable;
@@ -27,62 +26,59 @@ import javax.naming.NamingException;
 @Named
 @ViewScoped
 public class CategorieenBean implements Serializable {
-    
+
     private static final Logger LOGGER = Logger.getLogger(
-    Thread.currentThread().getStackTrace()[1].getClassName());
-    
-    private List<Categorie> categorieen = null ;
+            Thread.currentThread().getStackTrace()[1].getClassName());
+
+    private List<Categorie> categorieen = null;
     private Categorie geselecteerdeCategorie;
 
     public Categorie getGeselecteerdeCategorie() {
         return geselecteerdeCategorie;
     }
-    
 
     public List<Categorie> getCategorieen() {
-       // check if empty, if it is then fill with database
-        if(categorieen == null)
-        {
+        // check if empty, if it is then fill with database
+        if (categorieen == null) {
             try {
                 Database database = new Database();
                 this.categorieen = database.getCategorieen();
             } catch (SQLException | NamingException ex) {
-                LOGGER.log(Level.SEVERE,"Error {0}",ex);
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
                 System.out.println(ex.getMessage());
             }
         }
-        
+
         return categorieen;
     }
 
-    public void selecteer(Integer categorieID){
+    public void selecteer(Integer categorieID) {
         // gebruik dit om een omschrijving te selecteren
-        
-     for(Categorie categorie:categorieen){
-         if(categorie.getCategorieID().equals(categorieID)){
-             this.geselecteerdeCategorie = categorie;
-             break;
-         }    
-     }
-    }
-    
-    public void verwijderCategorie(Integer categorieID){
-        
-          try {
-                Database database = new Database();
-                database.verwijderCategorie(this.geselecteerdeCategorie);
-            } catch (SQLException | NamingException ex){
-                 LOGGER.log(Level.SEVERE,"Error {0}",ex);
-                System.out.println(ex.getMessage());
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("De database kan niet worden benaderd"));
+
+        for (Categorie categorie : categorieen) {
+            if (categorie.getCategorieID().equals(categorieID)) {
+                this.geselecteerdeCategorie = categorie;
+                break;
             }
-          //zet categorieen weer op nulll zodat deze weer opnieuw uit de db gehaald worden
-          this.categorieen = null;
+        }
     }
-    
-    
-    public String nieuweCategorie(){
+
+    public void verwijderCategorie(Integer categorieID) {
+
+        try {
+            Database database = new Database();
+            database.verwijderCategorie(this.geselecteerdeCategorie);
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("De database kan niet worden benaderd"));
+        }
+        //zet categorieen weer op nulll zodat deze weer opnieuw uit de db gehaald worden
+        this.categorieen = null;
+    }
+
+    public String nieuweCategorie() {
         Categorie nieuweCategorie = new Categorie();
         nieuweCategorie.setOmschrijving("");
         nieuweCategorie.setCategorieID(null);
@@ -90,14 +86,20 @@ public class CategorieenBean implements Serializable {
         Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
         sessionMap.put("categorie", nieuweCategorie);
         return "edit";
-        
+
     }
-    
-    public String wijzigCategorie(){
-         FacesContext context = FacesContext.getCurrentInstance();
+
+    public String wijzigCategorie() {
+        FacesContext context = FacesContext.getCurrentInstance();
         Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
         sessionMap.put("categorie", geselecteerdeCategorie);
         return "edit";
-        
+
+    }
+
+    public String naarBoeken() {
+
+        return "naarboeken";
+
     }
 }

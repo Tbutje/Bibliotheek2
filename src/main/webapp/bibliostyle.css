@@ -23,6 +23,7 @@ body{
     background-color: #ccccff
 }
 
+/***** TABLES */
 .table
 {
     width: 100%;
@@ -48,8 +49,24 @@ body{
 }
 
 
+/***** Knoppen */
 .knop{
     width:100px;
+}
+
+.knopBreed{
+    width:1000px;
+}
+
+
+
+/****** Panels */
+
+.allignRechts{
+    text-align : right;
+}
+.allignLinks{
+    text-align : left;
 }
 
 .knoppenOnder td{

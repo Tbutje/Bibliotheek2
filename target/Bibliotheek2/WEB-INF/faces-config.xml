@@ -20,4 +20,21 @@
         </navigation-case>
     </navigation-rule>
     
+    <navigation-rule>
+        <from-view-id>/boeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>categorieen</from-outcome>
+            <to-view-id>/categorieen.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/categorieen.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naarboeken</from-outcome>
+            <to-view-id>/boeken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
 </faces-config>
