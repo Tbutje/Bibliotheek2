@@ -63,6 +63,7 @@ public class BoekenBean implements Serializable {
     public void resetBoeken() {
         this.filter = "";
         this.boeken = null;
+        this.geselecteerdBoek = null;
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }

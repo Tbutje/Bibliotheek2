@@ -106,13 +106,17 @@
             <h:panelGrid columns = "3"
                          width="1000px">
                 <h:panelGroup>
-                    <h:commandButton value="Uitlenen / Innemen" action = "#{boekenBean.uitlenenInnemen()}" styleClass="knopBreed"/>
+                     <!-- werkt alleen als je een boek geselecteerd hebt-->
+                    <h:commandButton value="Uitlenen / Innemen" action = "#{boekenBean.uitlenenInnemen()}" styleClass="knopBreed"
+                                     rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
                      <br/>
                     <h:commandButton value="Categorien" action = "#{boekenBean.categorien()}" styleClass="knopBreed"/>
                 </h:panelGroup>
                 
                 <h:panelGroup> 
-                    <h:commandButton value="Exemplaar Toevoegen" action = "#{boekenBean.exemplaarToevoegen()}" styleClass="knopBreed"/>
+                    <!-- werkt alleen als je een boek geselecteerd hebt-->
+                    <h:commandButton value="Exemplaar Toevoegen" action = "#{boekenBean.exemplaarToevoegen()}" styleClass="knopBreed"
+                                     rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
                     <br/>
                     <h:commandButton value="Overzichten" action = "#{boekenBean.overzichten()}" styleClass="knopBreed"/>
                 </h:panelGroup>
