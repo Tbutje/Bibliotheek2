@@ -107,23 +107,23 @@
                          width="1000px">
                 <h:panelGroup>
                      <!-- werkt alleen als je een boek geselecteerd hebt-->
-                    <h:commandButton value="Uitlenen / Innemen" action = "#{boekenBean.uitlenenInnemen()}" styleClass="knopBreed"
+                    <h:commandButton value="Uitlenen / Innemen" action = "#{boekenBean.uitlenenInnemen()}" style="knopBreed"
                                      rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
                      <br/>
-                    <h:commandButton value="Categorien" action = "#{boekenBean.categorien()}" styleClass="knopBreed"/>
+                    <h:commandButton value="Categorien" action = "#{boekenBean.categorien()}" style="knopBreed"/>
                 </h:panelGroup>
                 
                 <h:panelGroup> 
                     <!-- werkt alleen als je een boek geselecteerd hebt-->
-                    <h:commandButton value="Exemplaar Toevoegen" action = "#{boekenBean.exemplaarToevoegen()}" styleClass="knopBreed"
+                    <h:commandButton value="Exemplaar Toevoegen" action = "#{boekenBean.exemplaarToevoegen()}" style="knopBreed"
                                      rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
                     <br/>
-                    <h:commandButton value="Overzichten" action = "#{boekenBean.overzichten()}" styleClass="knopBreed"/>
+                    <h:commandButton value="Overzichten" action = "#{boekenBean.overzichten()}" style="knopBreed"/>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <h:commandButton value="Titel toevoegen" action = "#{boekenBean.titelToevoegen()}" styleClass="knopBreed"/>
+                    <h:commandButton value="Titel toevoegen" action = "#{boekenBean.titelToevoegen()}" style="knopBreed"/>
                     <br/>
-                    <h:commandButton value="Medewerkers" action = "#{boekenBean.medewerkers()}" styleClass="knopBreed"/>
+                    <h:commandButton value="Medewerkers" action = "#{boekenBean.medewerkers()}" style="knopBreed"/>
                 </h:panelGroup>
             </h:panelGrid>
 

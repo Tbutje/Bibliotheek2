@@ -193,4 +193,37 @@ public class Database {
 
         return result;
     }
+    
+     public String getMaxBoeknr() throws SQLException, NamingException {
+        
+        String sql = "select max(boeknummer) from boeken";
+        String nummer = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()) {                
+              nummer = resultSet.getString(1);
+            }
+            
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return nummer;
+    }
 }
