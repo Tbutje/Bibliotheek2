@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!--kopje-->
+    <h:head>
+        <title>Exemplaar Toevoegen</title>
+        <link href="bibliostyle.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:form>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Exemplaar Toevoegen" styleClass="kop"/>
+
+            <!--penelgrid om het in 2 colommen te verdelen-->
+            <h:panelGrid columns ="2" styleClass="panelColumns" cellspacing="4" cellpadding="4">
+                <h:panelGroup>
+                    <h:outputText value="Boeknummer"/>
+                    <br/>
+                    <h:outputText value="Titel"/>
+                    <br/>
+                    <h:outputText value="Auteur"/>
+                    <br/>
+                    <h:outputText value="Uitgeverij"/>
+                    <br/>
+                    <h:outputText value="Categorie"/>
+                    <br/>
+                    <h:outputText value="ISBN"/>
+                    <br/>
+                    <h:outputText value="Locatie"/>  
+                    <br/>
+                    <h:outputText value="Aantal exemplaren"/>
+                    <br/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputText value = "#{exemplaarEditBean.boek.boekNummer}"/>
+                    <br/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.titel}"/>
+                    <br/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.auteur}""/>
+                    <br/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.uitgeverij}"/>
+                    <br/>
+                    <h:outputText value="#{exemplaarEditBean.boek.categorieOmschrijving}"/>
+                    <br/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.isbn}"/>
+                    <br/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.locatie}""/>
+                    <br/>
+                    <h:inputText value = "#{exemplaarEditBean.exemplaren}"/>
+                    <br/>
+                    <h:commandButton value="Toevoegen" 
+                                     action="#{exemplaarEditBean.exemplaarToevoegen()}"
+                                     styleClass="knop"/>
+                </h:panelGroup>
+            </h:panelGrid>
+            <h:messages/>
+        </h:body>
+    </h:form>
+</html>
+

@@ -9,32 +9,32 @@
     </h:head>
     
     <h:form>
-    <h:body styleClass="grijze_achtergrond">
-        <h:outputLabel value="Invoeren/Wijzigen categorie" styleClass="kop"/>
-       
-        <!--penelgrid om het in 2 colommen te verdelen-->
-        <h:panelGrid columns ="2" styleClass="panelColumns" cellspacing="4" cellpadding="4">
-            <h:panelGroup>
-                Categorie ID
-            <br/>
-                Omschrijving
-                <br/>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Invoeren/Wijzigen categorie" styleClass="kop"/>
+
+            <!--penelgrid om het in 2 colommen te verdelen-->
+            <h:panelGrid columns ="2" styleClass="panelColumns" cellspacing="4" cellpadding="4">
+                <h:panelGroup>
+                    Categorie ID
+                    <br/>
+                    Omschrijving
+                    <br/>
                     <h:commandButton value="Opslaan" 
                                      action="#{categorieEditBean.opslaan()}"
                                      styleClass="knop"/>
-            </h:panelGroup>
-             <h:panelGroup>
-                 <h:outputLabel value="#{categorieEditBean.categorie.categorieID}"/>
-                 <br/>
-                 <h:inputText value = "#{categorieEditBean.categorie.omschrijving}" size="50" maxlength="40"/>
-                 <br/>
-                 <h:commandButton value="Annuleren" 
-                                  action="#{categorieEditBean.annuleren()}"
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputLabel value="#{categorieEditBean.categorie.categorieID}"/>
+                    <br/>
+                    <h:inputText value = "#{categorieEditBean.categorie.omschrijving}" size="50" maxlength="40"/>
+                    <br/>
+                    <h:commandButton value="Annuleren" 
+                                     action="#{categorieEditBean.annuleren()}"
                                      styleClass="knop"/>
-            </h:panelGroup>
-        </h:panelGrid>
-        <h:messages/>
-    </h:body>
-        </h:form>
+                </h:panelGroup>
+            </h:panelGrid>
+            <h:messages/>
+        </h:body>
+    </h:form>
 </html>
 

@@ -73,9 +73,12 @@ public class BoekenBean implements Serializable {
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
 
-    public void exemplaarToevoegen() {
+    // voeg een exemplaar toe aan het geselecteerde boek
+    public String exemplaarToevoegen() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("boek", this.geselecteerdBoek);
+        return "exemplaartoevoegen";
     }
 
     public void titelToevoegen() {
@@ -96,10 +99,9 @@ public class BoekenBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
-    
-    
+
     // deze functie is om een boek te selecteren
-        public void selecteer(Integer boek_ID) {
+    public void selecteer(Integer boek_ID) {
         // gebruik dit om een omschrijving te selecteren
 
         for (Boek boek : boeken) {
@@ -109,7 +111,5 @@ public class BoekenBean implements Serializable {
             }
         }
     }
-    
-    
 
 }
