@@ -92,52 +92,124 @@ public class BoekEditBean {
     }
 
     public void titelToevoegen() {
+        FacesContext context = FacesContext.getCurrentInstance();
 
         // check titel
         if (this.boek.getTitel().isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
+            //  FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Titel mag niet leeg zijn"));
         }
 
         // check auteur
         if (this.boek.getAuteur().isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
+            //    FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Auteur mag niet leeg zijn"));
         }
 
         //check categorie
         if (this.boek.getCategorie_ID() == null) {
-            FacesContext context = FacesContext.getCurrentInstance();
+            //          FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Categorie mag niet leeg zijn"));
         }
 
         //check locatie
         if (this.boek.getLocatie().isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
+            //          FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Locatie mag niet leeg zijn"));
         }
 
         // exemplaren verplicht, numeriek, integer niet negatief
         // integer.parse geeft error bij float en text
         try {
-            Integer exempNum;
-            exempNum = Integer.parseInt(exemplaren);
-            
+
             // check niet negatief
-            if (exempNum < 0) {
-                FacesContext context = FacesContext.getCurrentInstance();
+            if (Integer.parseInt(exemplaren) < 0) {
+                //              FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage("Aantal exemplaren mag niet lager dan 0 zijn"));
             }
-            
+
         } catch (NumberFormatException ex) {
-            FacesContext context = FacesContext.getCurrentInstance();
+            //          FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Aantal exemplaren moet een positief heel getal zijn, geen text of float"));
         }
-        
+
         //check isbn
+        if (!this.boek.getIsbn().isEmpty()) {
+            String isbn = this.boek.getIsbn().trim();
+            isbn = isbn.replace("-", "");
+
+            try {
+                //isbn 10
+                if (isbn.length() == 10) {
+
+                    int sum = 0;
+                    for (int idx = 0; idx < 10; ++idx) {
+                        int nummer = Integer.parseInt(isbn.substring(idx, idx + 1));
+                        sum += (nummer * (10 - idx));
+                    }
+
+                    //sum should be multiple 11
+                    if (sum % 11 != 0) {
+                        //                   FacesContext context = FacesContext.getCurrentInstance();
+                        context.addMessage(null, new FacesMessage("ISBN incorrect"));
+                    }
+
+                } // isbn 13 
+                else if (isbn.length() == 13) {
+                    int sum = 0;
+
+                    for (int idx = 0; idx < 13; ++idx) {
+                        int nummer = Integer.parseInt(isbn.substring(idx, idx + 1));
+                        if (idx % 2 == 0) {
+                            //even
+                            sum += nummer;
+                        } else {
+                            //oneven
+                            sum += (nummer * 3);
+                        }
+
+                    }
+                    //sum should be multiple 10
+                    if (sum % 10 != 0) {
+                        //                       FacesContext context = FacesContext.getCurrentInstance();
+                        context.addMessage(null, new FacesMessage("ISBN incorrect"));
+                    }
+
+                } //voldoet niet aan isbn lengtes
+                else {
+                    //                   FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage("ISBN moet lengte 10 of 13 zijn"));
+
+                }
+            } catch (NumberFormatException ex) {
+                //            FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("ISBN moet numeriek zijn"));
+            }
+
+        } else {
+            //          FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("ISBN mag niet leeg zijn"));
+        }
+
+        //als er geen fouten zijn vooer het dan door :)
+        // beetje hackie, maar dit checken door te kijken of er geen messages zijn
+        if (context.getMessageList().isEmpty()) {
+
+            // sla het boek op
+            try {
+                Database database = new Database();
+                database.insertBoek(this.boek);
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+            // voeg de exemplaren toe
+            
+            // clear scherm
+        }
 
     }
-    
 
     public void annuleren() {
         FacesContext context = FacesContext.getCurrentInstance();

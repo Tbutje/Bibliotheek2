@@ -162,7 +162,7 @@ public class Database {
             preparedStatement.setString(2, filter);
             preparedStatement.setString(3, filter);
             preparedStatement.setString(4, filter);
-            
+
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -193,9 +193,10 @@ public class Database {
 
         return result;
     }
-    
-     public String getMaxBoeknr() throws SQLException, NamingException {
-        
+
+    //*********FUNCTIES VOOR BOEKEDIT/TOEVOEGEN
+    public String getMaxBoeknr() throws SQLException, NamingException {
+
         String sql = "select max(boeknummer) from boeken";
         String nummer = null;
 
@@ -207,11 +208,11 @@ public class Database {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
-            
-            while (resultSet.next()) {                
-              nummer = resultSet.getString(1);
+
+            while (resultSet.next()) {
+                nummer = resultSet.getString(1);
             }
-            
+
         } finally {
             if (resultSet != null && !resultSet.isClosed()) {
                 resultSet.close();
@@ -226,4 +227,37 @@ public class Database {
 
         return nummer;
     }
+
+    public void insertBoek(Boek boek) throws NamingException, SQLException {
+
+        String sql = "insert into Boeken (BoekNummer, Titel, Auteur, Uitgeverij, ISBN, Locatie, Categorie_ID) values (?,?,?,?,?,?,?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+   
+            preparedStatement.setString(1, boek.getBoekNummer());
+            preparedStatement.setString(2, boek.getTitel());
+            preparedStatement.setString(3, boek.getAuteur());
+            preparedStatement.setString(4, boek.getUitgeverij());
+            preparedStatement.setString(5, boek.getIsbn());
+            preparedStatement.setString(6, boek.getLocatie());
+            preparedStatement.setInt(7, boek.getCategorie_ID());
+
+            
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+    }
+
 }
