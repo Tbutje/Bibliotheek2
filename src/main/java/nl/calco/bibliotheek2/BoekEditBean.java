@@ -58,9 +58,9 @@ public class BoekEditBean {
         //als boek leeg is maar dan nieuw boek aan en geef deze een boeknummer
         // namelijk huidige max boeknummer +1
         if (boek == null) {
-
+            this.boek = new Boek();
             try {
-                this.boek = new Boek();
+
                 String text;
                 Integer nummer;
                 Database database = new Database();
@@ -79,8 +79,18 @@ public class BoekEditBean {
     }
 
     public void titelToevoegen() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+
+        // check titel
+        if (this.boek == null || this.boek.getTitel() == null || this.boek.getTitel().isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Titel mag niet leeg zijn"));
+        }
+
+        // check auteur
+        //check categorie
+        //check locatie
+        // exemplaren verplicht, numeriek, integer niet negatief
+        //check isbn
     }
 
     public void annuleren() {
