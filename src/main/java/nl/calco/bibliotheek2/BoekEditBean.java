@@ -7,6 +7,7 @@ package nl.calco.bibliotheek2;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
 
@@ -21,8 +23,8 @@ import javax.naming.NamingException;
  *
  * @author TKoole
  */
-@Named(value = "boekEditBean")
-@Dependent
+@Named
+@ViewScoped
 public class BoekEditBean {
 
     private static final Logger LOGGER = Logger.getLogger(
@@ -30,6 +32,15 @@ public class BoekEditBean {
 
     private Boek boek = null;
     private List<SelectItem> categorieSelectie = null;
+    private String exemplaren;
+
+    public void setExemplaren(String exemplaren) {
+        this.exemplaren = exemplaren;
+    }
+
+    public String getExemplaren() {
+        return exemplaren;
+    }
 
     public List<SelectItem> getCategorieSelectie() {
 
@@ -59,6 +70,7 @@ public class BoekEditBean {
         // namelijk huidige max boeknummer +1
         if (boek == null) {
             this.boek = new Boek();
+
             try {
 
                 String text;
@@ -69,6 +81,7 @@ public class BoekEditBean {
                 nummer++;
 
                 this.boek.setBoekNummer(text.substring(0, 2) + nummer);
+                // this.boek = boekTmp;
             } catch (SQLException | NamingException ex) {
                 LOGGER.log(Level.SEVERE, "Error {0}", ex);
                 System.out.println(ex.getMessage());
@@ -81,17 +94,50 @@ public class BoekEditBean {
     public void titelToevoegen() {
 
         // check titel
-        if (this.boek == null || this.boek.getTitel() == null || this.boek.getTitel().isEmpty()) {
+        if (this.boek.getTitel().isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Titel mag niet leeg zijn"));
         }
 
         // check auteur
+        if (this.boek.getAuteur().isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Auteur mag niet leeg zijn"));
+        }
+
         //check categorie
+        if (this.boek.getCategorie_ID() == null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Categorie mag niet leeg zijn"));
+        }
+
         //check locatie
+        if (this.boek.getLocatie().isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Locatie mag niet leeg zijn"));
+        }
+
         // exemplaren verplicht, numeriek, integer niet negatief
+        // integer.parse geeft error bij float en text
+        try {
+            Integer exempNum;
+            exempNum = Integer.parseInt(exemplaren);
+            
+            // check niet negatief
+            if (exempNum < 0) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Aantal exemplaren mag niet lager dan 0 zijn"));
+            }
+            
+        } catch (NumberFormatException ex) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Aantal exemplaren moet een positief heel getal zijn, geen text of float"));
+        }
+        
         //check isbn
+
     }
+    
 
     public void annuleren() {
         FacesContext context = FacesContext.getCurrentInstance();

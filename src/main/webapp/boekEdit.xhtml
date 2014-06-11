@@ -32,24 +32,24 @@
                     <br/>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <h:inputText value = "#{boekEditBean.boek.boekNummer}" size="50" maxlength="40" readonly="true" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.boek.boekNummer}" size="50" maxlength="40" readonly="true" style="height: 11px"/>
                     <br/>
-                    <h:inputText value = "#{boekEditBean.boek.titel}" size="50" maxlength="40" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.boek.titel}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
-                    <h:inputText value = "#{boekEditBean.boek.auteur}" size="50" maxlength="40" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.boek.auteur}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
-                    <h:inputText value = "#{boekEditBean.boek.uitgeverij}" size="50" maxlength="40" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.boek.uitgeverij}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
                     <h:selectOneMenu value="#{boekEditBean.boek.categorie_ID}">
                         <f:selectItem/>
                         <f:selectItems value="#{boekEditBean.categorieSelectie}"/>
                     </h:selectOneMenu>
                     <br/>
-                    <h:inputText value = "#{boekEditBean.boek.isbn}" size="50" maxlength="40" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.boek.isbn}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
-                    <h:inputText value = "#{boekEditBean.boek.locatie}" size="50" maxlength="40" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.boek.locatie}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
-                    <h:inputText value = "Aantal exemplaren" size="50" maxlength="40" style="height: 12px"/>
+                    <h:inputText value = "#{boekEditBean.exemplaren}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
                     <h:commandButton value="Titel toevoegen" 
                                      action="#{boekEditBean.titelToevoegen()}"
