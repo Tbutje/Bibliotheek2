@@ -6,11 +6,14 @@
 package nl.calco.bibliotheek2;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -228,16 +231,19 @@ public class Database {
         return nummer;
     }
 
-    public void insertBoek(Boek boek) throws NamingException, SQLException {
+    public Boek insertBoek(Boek boek) throws NamingException, SQLException {
 
-        String sql = "insert into Boeken (BoekNummer, Titel, Auteur, Uitgeverij, ISBN, Locatie, Categorie_ID) values (?,?,?,?,?,?,?)";
+        String sql = "insert into Boeken (BoekNummer, Titel, Auteur, Uitgeverij, ISBN, Locatie, Categorie_ID)"
+                + "output inserted.boek_id"
+                + " values (?,?,?,?,?,?,?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet;
 
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
-   
+
             preparedStatement.setString(1, boek.getBoekNummer());
             preparedStatement.setString(2, boek.getTitel());
             preparedStatement.setString(3, boek.getAuteur());
@@ -246,8 +252,11 @@ public class Database {
             preparedStatement.setString(6, boek.getLocatie());
             preparedStatement.setInt(7, boek.getCategorie_ID());
 
-            
-            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                boek.setBoek_ID(resultSet.getInt(1));
+            }
 
         } finally {
             if (preparedStatement != null && !preparedStatement.isClosed()) {
@@ -256,6 +265,41 @@ public class Database {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
+
+        }
+        return boek;
+
+    }
+
+    public void insertExemplaar(Integer boek_ID, Integer exemplaren) throws NamingException, SQLException {
+
+        String sql = "insert into Exemplaren (Boek_ID, ExemplaarVolgnummer, DatumAanschaf, vermist)"
+                + " values (?,?,?,?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        LocalDate datumAanschaf = LocalDate.now();
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            for (int idx = 1; idx < (exemplaren + 1); idx++) {
+                
+                preparedStatement.setInt(1, boek_ID);
+                preparedStatement.setInt(2, idx);
+                preparedStatement.setDate(3, Date.valueOf(datumAanschaf));
+                preparedStatement.setNull(4, java.sql.Types.NULL);
+
+                preparedStatement.executeUpdate();
+            }
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+
         }
 
     }

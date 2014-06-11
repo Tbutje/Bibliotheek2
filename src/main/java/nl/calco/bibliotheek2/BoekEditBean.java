@@ -5,6 +5,7 @@
  */
 package nl.calco.bibliotheek2;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ import javax.naming.NamingException;
  */
 @Named
 @ViewScoped
-public class BoekEditBean {
+public class BoekEditBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(
             Thread.currentThread().getStackTrace()[1].getClassName());
@@ -195,17 +196,24 @@ public class BoekEditBean {
         // beetje hackie, maar dit checken door te kijken of er geen messages zijn
         if (context.getMessageList().isEmpty()) {
 
-            // sla het boek op
+            // sla het boek op en krijg boek_id terug
             try {
                 Database database = new Database();
-                database.insertBoek(this.boek);
+                this.boek = database.insertBoek(this.boek);
             } catch (SQLException | NamingException ex) {
                 LOGGER.log(Level.SEVERE, "Error {0}", ex);
                 System.out.println(ex.getMessage());
             }
 
             // voeg de exemplaren toe
-            
+            try {
+                Database database = new Database();
+                database.insertExemplaar(this.boek.getBoek_ID(), Integer.parseInt(exemplaren));
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
             // clear scherm
         }
 
