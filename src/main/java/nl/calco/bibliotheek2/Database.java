@@ -11,9 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Calendar;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -271,6 +272,49 @@ public class Database {
 
     }
 
+    //*EIND* FUNCTIES VOOR BOEKEDIT/TOEVOEGEN
+    //*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN
+    public List<Exemplaar> getExemplaren(Integer boek_ID) throws SQLException, NamingException {
+        List<Exemplaar> result = new ArrayList<>();
+        String sql = "select * from Exemplaren where Boek_ID = ? order by ExemplaarVolgnummer";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, boek_ID);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Exemplaar exemplaar = new Exemplaar();
+                exemplaar.setExemplaar_ID(resultSet.getInt("Exemplaar_ID"));
+                exemplaar.setBoek_ID(resultSet.getInt("Boek_ID"));
+                exemplaar.setExemplaarVolgnummer(resultSet.getInt("ExemplaarVolgnummer"));
+                exemplaar.setDatumAanschaf(
+                        resultSet.getDate("DatumAanschaf").toLocalDate()
+                );
+                exemplaar.setVermist(resultSet.getBoolean("Vermist"));
+
+                result.add(exemplaar);
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return result;
+    }
+
     public void insertExemplaar(Integer boek_ID, Integer exemplaren) throws NamingException, SQLException {
 
         String sql = "insert into Exemplaren (Boek_ID, ExemplaarVolgnummer, DatumAanschaf, vermist)"
@@ -283,7 +327,42 @@ public class Database {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
             for (int idx = 1; idx < (exemplaren + 1); idx++) {
-                
+
+                preparedStatement.setInt(1, boek_ID);
+                preparedStatement.setInt(2, idx);
+                preparedStatement.setDate(3, Date.valueOf(datumAanschaf));
+                preparedStatement.setNull(4, java.sql.Types.NULL);
+
+                preparedStatement.executeUpdate();
+            }
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+
+        }
+
+    }
+    
+    //overloaded voor als je nieuwe wil toevoegen en er zijn al bestaande
+    // neemt wel aan dat je niet bestaande nummers toevoegd
+     public void insertExemplaar(Integer boek_ID, Integer begin, Integer aantal) throws NamingException, SQLException {
+
+        String sql = "insert into Exemplaren (Boek_ID, ExemplaarVolgnummer, DatumAanschaf, vermist)"
+                + " values (?,?,?,?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        LocalDate datumAanschaf = LocalDate.now();
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            for (int idx = begin; idx < (begin + aantal); idx++) {
+
                 preparedStatement.setInt(1, boek_ID);
                 preparedStatement.setInt(2, idx);
                 preparedStatement.setDate(3, Date.valueOf(datumAanschaf));

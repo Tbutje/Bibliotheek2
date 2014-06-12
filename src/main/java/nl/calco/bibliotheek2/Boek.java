@@ -23,6 +23,18 @@ public class Boek implements Serializable{
     private String locatie;
     private Integer categorie_ID;
     private String categorieOmschrijving;
+    
+    private Integer exemplaren = null;
+
+    public Integer getExemplaren() {
+        
+        if(exemplaren == null)
+        {
+            
+            
+        }
+        return exemplaren;
+    }
 
     public String getCategorieOmschrijving() {
         return categorieOmschrijving;

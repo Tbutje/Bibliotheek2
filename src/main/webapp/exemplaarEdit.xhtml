@@ -36,7 +36,7 @@
                     <br/>
                     <h:outputText value = "#{exemplaarEditBean.boek.titel}"/>
                     <br/>
-                    <h:outputText value = "#{exemplaarEditBean.boek.auteur}""/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.auteur}"/>
                     <br/>
                     <h:outputText value = "#{exemplaarEditBean.boek.uitgeverij}"/>
                     <br/>
@@ -44,12 +44,16 @@
                     <br/>
                     <h:outputText value = "#{exemplaarEditBean.boek.isbn}"/>
                     <br/>
-                    <h:outputText value = "#{exemplaarEditBean.boek.locatie}""/>
+                    <h:outputText value = "#{exemplaarEditBean.boek.locatie}"/>
                     <br/>
-                    <h:inputText value = "#{exemplaarEditBean.exemplaren}"/>
+                    <h:inputText value = "#{exemplaarEditBean.exemplaar_aantal}"/>
                     <br/>
                     <h:commandButton value="Toevoegen" 
                                      action="#{exemplaarEditBean.exemplaarToevoegen()}"
+                                     styleClass="knop"/>
+                    
+                     <h:commandButton value="Annuleren" 
+                                      action="#{exemplaarEditBean.annuleren()}"
                                      styleClass="knop"/>
                 </h:panelGroup>
             </h:panelGrid>
