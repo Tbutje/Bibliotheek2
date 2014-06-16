@@ -273,7 +273,8 @@ public class Database {
     }
 
     //*EIND* FUNCTIES VOOR BOEKEDIT/TOEVOEGEN
-    //*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN
+    
+//*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN
     public List<Exemplaar> getExemplaren(Integer boek_ID) throws SQLException, NamingException {
         List<Exemplaar> result = new ArrayList<>();
         String sql = "select * from Exemplaren where Boek_ID = ? order by ExemplaarVolgnummer";
@@ -347,10 +348,10 @@ public class Database {
         }
 
     }
-    
+
     //overloaded voor als je nieuwe wil toevoegen en er zijn al bestaande
     // neemt wel aan dat je niet bestaande nummers toevoegd
-     public void insertExemplaar(Integer boek_ID, Integer begin, Integer aantal) throws NamingException, SQLException {
+    public void insertExemplaar(Integer boek_ID, Integer begin, Integer aantal) throws NamingException, SQLException {
 
         String sql = "insert into Exemplaren (Boek_ID, ExemplaarVolgnummer, DatumAanschaf, vermist)"
                 + " values (?,?,?,?)";
@@ -382,5 +383,115 @@ public class Database {
         }
 
     }
+    
+    public Uitlening getHuidigeUitlening(Integer exemplaar_id) throws NamingException, SQLException{
+        Uitlening uitlening = new Uitlening();
+        String sql = "select * from Uitleningen where exemplaar_id = ?" 
+                + " and datuminleveren is null";
 
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, exemplaar_id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                uitlening.setExemplaar_ID(resultSet.getInt("Exemplaar_ID"));
+                uitlening.setMedewerker_ID(resultSet.getInt("Medewerker_ID"));
+                uitlening.setDatumUitleen(resultSet.getDate("DatumUitleen").toLocalDate());
+//                uitlening.setDatumInleveren(resultSet.getDate("DatumInleveren").toLocalDate());
+       
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return uitlening;
+    }
+    
+    public Medewerker getMedewerker(Integer medewerker_id)throws NamingException, SQLException{
+        String sql = "select * from Medewerkers where Medewerker_ID = ?";
+        Medewerker medewerker = new Medewerker();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, medewerker_id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                medewerker.setMedewerker_ID(resultSet.getInt("Medewerker_ID"));
+                medewerker.setAchternaam(resultSet.getString("Achternaam"));
+                medewerker.setVoornaam(resultSet.getString("Voornaam"));
+                medewerker.setTussenVoegsel(resultSet.getString("Tussenvoegsel"));
+                medewerker.setEmail(resultSet.getString("Email"));
+
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    
+
+        return medewerker;
+    }
+
+      public String getDatumuitleen(Integer exemplaar_id) throws NamingException, SQLException{
+        String result = "";
+        String sql = "select * from Uitleningen where exemplaar_id = ?" 
+                + " and datuminleveren is null";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, exemplaar_id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+               result = resultSet.getString(1);
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+        if(result == null){
+            result = "";
+        }
+
+        return result;
+    }
 }

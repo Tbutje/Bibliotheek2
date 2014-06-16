@@ -52,7 +52,7 @@
         </navigation-case>
     </navigation-rule>
     
-        <navigation-rule>
+    <navigation-rule>
         <from-view-id>/exemplaarEdit.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>naarboeken</from-outcome>
@@ -60,6 +60,13 @@
         </navigation-case>
     </navigation-rule>
     
+    <navigation-rule>
+        <from-view-id>/boeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>uitleneninnemen</from-outcome>
+            <to-view-id>/uitlenenInnemen.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     
     
     

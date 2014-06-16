@@ -68,9 +68,11 @@ public class BoekenBean implements Serializable {
 //        context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
 
-    public void uitlenenInnemen() {
+    public String uitlenenInnemen() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("boek", this.geselecteerdBoek);
+        return "uitleneninnemen";
     }
 
     // voeg een exemplaar toe aan het geselecteerde boek

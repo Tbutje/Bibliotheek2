@@ -6,7 +6,11 @@
 package nl.calco.bibliotheek2;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 
 /**
  *
@@ -14,11 +18,34 @@ import java.time.LocalDate;
  */
 public class Exemplaar implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger(
+            Thread.currentThread().getStackTrace()[1].getClassName());
+
     private Integer exemplaar_ID;
     private Integer boek_ID;
     private Integer exemplaarVolgnummer;
     private LocalDate datumAanschaf;
-    private boolean vermist;
+    private Boolean vermist;
+    private Uitlening huidigeUitlening = null;
+    private Boolean uitlening_set = false;
+  
+   
+
+    public Uitlening getHuidigeUitlening() {
+        if (huidigeUitlening == null && exemplaar_ID != null && !uitlening_set ) {
+            try {
+                Database database = new Database();
+                this.huidigeUitlening = database.getHuidigeUitlening(this.exemplaar_ID);
+                this.uitlening_set = true;
+
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+
+            }
+        }
+        return huidigeUitlening;
+    }
 
     public Integer getExemplaar_ID() {
         return exemplaar_ID;
@@ -52,11 +79,11 @@ public class Exemplaar implements Serializable {
         this.datumAanschaf = datumAanschaf;
     }
 
-    public boolean isVermist() {
+    public Boolean isVermist() {
         return vermist;
     }
 
-    public void setVermist(boolean vermist) {
+    public void setVermist(Boolean vermist) {
         this.vermist = vermist;
     }
 
