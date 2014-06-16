@@ -70,9 +70,10 @@ public class UitlenenInnemenBean implements Serializable {
         return exemplaren;
     }
 
-    public void annuleren() {
+    public String annuleren() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        return "naarboeken";
     }
 
     public void innemen() {
@@ -80,9 +81,11 @@ public class UitlenenInnemenBean implements Serializable {
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
 
-    public void uitlenen() {
+    public String uitlenen() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("exemplaar", this.geselecteerdExemplaar);
+        return "naaruitlenen";
     }
 
     public void bewerken() {
@@ -100,9 +103,12 @@ public class UitlenenInnemenBean implements Serializable {
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
 
-    public void wijzigen() {
+    public String wijzigen() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("boek", this.boek);
+        sessionMap.put("vanwaar", "vanuitlenen");
+        return "boekedit";
     }
 
     public Medewerker getMedewerker(Integer medewerker_id) {

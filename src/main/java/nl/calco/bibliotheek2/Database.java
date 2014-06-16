@@ -272,8 +272,53 @@ public class Database {
 
     }
 
+    public Boek getBoek(Integer boek_ID) throws SQLException, NamingException {
+        Boek boek = new Boek();
+        String sql = "select * from boeken"        
+                + " left join Categorien"
+                + " on Boeken.Categorie_ID = Categorien.Categorie_ID" 
+                + " where Boek_ID = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, boek_ID);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                boek.setBoek_ID(resultSet.getInt("Boek_ID"));
+                boek.setBoekNummer(resultSet.getString("BoekNummer"));
+                boek.setTitel(resultSet.getString("Titel"));
+                boek.setAuteur(resultSet.getString("Auteur"));
+                boek.setUitgeverij(resultSet.getString("Uitgeverij"));
+                boek.setIsbn(resultSet.getString("ISBN"));
+                boek.setLocatie(resultSet.getString("Locatie"));
+                boek.setCategorie_ID(resultSet.getInt("Categorie_ID"));
+                boek.setCategorieOmschrijving(resultSet.getString("Omschrijving"));
+
+            }
+
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return boek;
+    }
+
     //*EIND* FUNCTIES VOOR BOEKEDIT/TOEVOEGEN
-    
 //*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN
     public List<Exemplaar> getExemplaren(Integer boek_ID) throws SQLException, NamingException {
         List<Exemplaar> result = new ArrayList<>();
@@ -383,10 +428,10 @@ public class Database {
         }
 
     }
-    
-    public Uitlening getHuidigeUitlening(Integer exemplaar_id) throws NamingException, SQLException{
+
+    public Uitlening getHuidigeUitlening(Integer exemplaar_id) throws NamingException, SQLException {
         Uitlening uitlening = new Uitlening();
-        String sql = "select * from Uitleningen where exemplaar_id = ?" 
+        String sql = "select * from Uitleningen where exemplaar_id = ?"
                 + " and datuminleveren is null";
 
         Connection connection = null;
@@ -404,7 +449,7 @@ public class Database {
                 uitlening.setMedewerker_ID(resultSet.getInt("Medewerker_ID"));
                 uitlening.setDatumUitleen(resultSet.getDate("DatumUitleen").toLocalDate());
 //                uitlening.setDatumInleveren(resultSet.getDate("DatumInleveren").toLocalDate());
-       
+
             }
         } finally {
             if (resultSet != null && !resultSet.isClosed()) {
@@ -420,8 +465,8 @@ public class Database {
 
         return uitlening;
     }
-    
-    public Medewerker getMedewerker(Integer medewerker_id)throws NamingException, SQLException{
+
+    public Medewerker getMedewerker(Integer medewerker_id) throws NamingException, SQLException {
         String sql = "select * from Medewerkers where Medewerker_ID = ?";
         Medewerker medewerker = new Medewerker();
 
@@ -454,14 +499,51 @@ public class Database {
                 connection.close();
             }
         }
-    
 
         return medewerker;
     }
 
-      public String getDatumuitleen(Integer exemplaar_id) throws NamingException, SQLException{
+    public List<Medewerker> getMedewerkers() throws NamingException, SQLException {
+        List<Medewerker> result = new ArrayList<>();
+        String sql = "select * from Medewerkers";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Medewerker medewerker = new Medewerker();
+                medewerker.setMedewerker_ID(resultSet.getInt("Medewerker_ID"));
+                medewerker.setAchternaam(resultSet.getString("Achternaam"));
+                medewerker.setVoornaam(resultSet.getString("Voornaam"));
+                medewerker.setTussenVoegsel(resultSet.getString("Tussenvoegsel"));
+                medewerker.setEmail(resultSet.getString("Email"));
+
+                result.add(medewerker);
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return result;
+    }
+
+    public String getDatumuitleen(Integer exemplaar_id) throws NamingException, SQLException {
         String result = "";
-        String sql = "select * from Uitleningen where exemplaar_id = ?" 
+        String sql = "select * from Uitleningen where exemplaar_id = ?"
                 + " and datuminleveren is null";
 
         Connection connection = null;
@@ -475,7 +557,7 @@ public class Database {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-               result = resultSet.getString(1);
+                result = resultSet.getString(1);
             }
         } finally {
             if (resultSet != null && !resultSet.isClosed()) {
@@ -488,7 +570,7 @@ public class Database {
                 connection.close();
             }
         }
-        if(result == null){
+        if (result == null) {
             result = "";
         }
 

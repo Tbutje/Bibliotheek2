@@ -83,9 +83,8 @@ public class BoekenBean implements Serializable {
         return "exemplaartoevoegen";
     }
 
-    public void titelToevoegen() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    public String titelToevoegen() {
+        return "titeltoevoegen";
     }
 
     public String categorien() {

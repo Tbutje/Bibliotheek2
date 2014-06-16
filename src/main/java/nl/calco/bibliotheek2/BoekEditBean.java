@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.Dependent;
@@ -34,6 +35,12 @@ public class BoekEditBean implements Serializable {
     private Boek boek = null;
     private List<SelectItem> categorieSelectie = null;
     private String exemplaren;
+    private Boolean nieuw_boek = false;
+
+    public Boolean isNieuw_boek() {
+        return nieuw_boek;
+    }
+    
 
     public void setExemplaren(String exemplaren) {
         this.exemplaren = exemplaren;
@@ -70,22 +77,31 @@ public class BoekEditBean implements Serializable {
         //als boek leeg is maar dan nieuw boek aan en geef deze een boeknummer
         // namelijk huidige max boeknummer +1
         if (boek == null) {
-            this.boek = new Boek();
 
-            try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+            if (sessionMap.containsKey("boek")) {
+                this.boek = (Boek) sessionMap.get("boek");
+                sessionMap.remove("boek");
+            } else {
+                nieuw_boek = true;
+                this.boek = new Boek();
 
-                String text;
-                Integer nummer;
-                Database database = new Database();
-                text = (database.getMaxBoeknr()).trim();
-                nummer = Integer.parseInt(text.substring(2, 5));
-                nummer++;
+                try {
 
-                this.boek.setBoekNummer(text.substring(0, 2) + nummer);
-                // this.boek = boekTmp;
-            } catch (SQLException | NamingException ex) {
-                LOGGER.log(Level.SEVERE, "Error {0}", ex);
-                System.out.println(ex.getMessage());
+                    String text;
+                    Integer nummer;
+                    Database database = new Database();
+                    text = (database.getMaxBoeknr()).trim();
+                    nummer = Integer.parseInt(text.substring(2, 5));
+                    nummer++;
+
+                    this.boek.setBoekNummer(text.substring(0, 2) + nummer);
+                    // this.boek = boekTmp;
+                } catch (SQLException | NamingException ex) {
+                    LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                    System.out.println(ex.getMessage());
+                }
             }
 
         }
@@ -219,9 +235,39 @@ public class BoekEditBean implements Serializable {
 
     }
 
-    public void annuleren() {
+    public String terug() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+
+        if (sessionMap.containsKey("vanwaar")) {
+
+            // kijk waar we vandan komen
+            String vanwaar = (String) sessionMap.get("vanwaar");
+            sessionMap.remove("vanwaar");
+
+            // krijg een vers boek.
+            try {
+                Database database = new Database();
+                this.boek = database.getBoek(this.boek.getBoek_ID());
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+            if (vanwaar.equals("vanuitlenen")) {
+                // stop alles weer in sessionmap
+                sessionMap.put("boek", this.boek);
+                return "uitleneninnemen";
+            } else {
+                // niks in session map als we terug naar boeken gaan
+                return "naarboeken";
+            }
+        } else {
+            // niks in session map als we terug naar boeken gaan
+            return "naarboeken";
+        }
+
+        //      sessionMap.remove("boek");
     }
 
 }

@@ -20,19 +20,20 @@
         </navigation-case>
     </navigation-rule>
     
-    <navigation-rule>
-        <from-view-id>/boeken.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>categorieen</from-outcome>
-            <to-view-id>/categorieen.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
     
     <navigation-rule>
         <from-view-id>/categorieen.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>naarboeken</from-outcome>
             <to-view-id>/boeken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/boeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>categorieen</from-outcome>
+            <to-view-id>/categorieen.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -53,7 +54,32 @@
     </navigation-rule>
     
     <navigation-rule>
-        <from-view-id>/exemplaarEdit.xhtml</from-view-id>
+        <from-view-id>/boeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>uitleneninnemen</from-outcome>
+            <to-view-id>/uitlenenInnemen.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/boeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>titeltoevoegen</from-outcome>
+            <to-view-id>/boekEdit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/uitlenenInnemen.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>boekedit</from-outcome>
+            <to-view-id>/boekEdit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+        
+    <navigation-rule>
+        <from-view-id>/uitlenenInnemen.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>naarboeken</from-outcome>
             <to-view-id>/boeken.xhtml</to-view-id>
@@ -61,12 +87,47 @@
     </navigation-rule>
     
     <navigation-rule>
-        <from-view-id>/boeken.xhtml</from-view-id>
+        <from-view-id>/uitlenenInnemen.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naaruitlenen</from-outcome>
+            <to-view-id>/boekUitlenen.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <from-view-id>/exemplaarEdit.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naarboeken</from-outcome>
+            <to-view-id>/boeken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <from-view-id>/boekEdit.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>uitleneninnemen</from-outcome>
             <to-view-id>/uitlenenInnemen.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/boekEdit.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naarboeken</from-outcome>
+            <to-view-id>/boeken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/boekUitlenen.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naaruitleneninnemen</from-outcome>
+            <to-view-id>/uitlenenInnemen.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
     
     
     

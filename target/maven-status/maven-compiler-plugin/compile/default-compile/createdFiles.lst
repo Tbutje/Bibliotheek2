@@ -1,2 +1,13 @@
+nl\calco\bibliotheek2\Boek.class
+nl\calco\bibliotheek2\CategorieEditBean.class
+nl\calco\bibliotheek2\Database.class
+nl\calco\bibliotheek2\BoekEditBean.class
+nl\calco\bibliotheek2\Uitlening.class
 nl\calco\bibliotheek2\Categorie.class
+nl\calco\bibliotheek2\UitlenenInnemenBean.class
+nl\calco\bibliotheek2\Exemplaar.class
 nl\calco\bibliotheek2\CategorieenBean.class
+nl\calco\bibliotheek2\Medewerker.class
+nl\calco\bibliotheek2\BoekUitlenenBean.class
+nl\calco\bibliotheek2\ExemplaarEditBean.class
+nl\calco\bibliotheek2\BoekenBean.class

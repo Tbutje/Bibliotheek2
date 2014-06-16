@@ -28,11 +28,24 @@ public class Exemplaar implements Serializable {
     private Boolean vermist;
     private Uitlening huidigeUitlening = null;
     private Boolean uitlening_set = false;
-  
-   
+    private Boek boek = null;
+
+    public Boek getBoek() {
+        if (boek == null) {
+            try {
+                Database database = new Database();
+                this.boek = database.getBoek(boek_ID);
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+            
+        }
+        return boek;
+    }
 
     public Uitlening getHuidigeUitlening() {
-        if (huidigeUitlening == null && exemplaar_ID != null && !uitlening_set ) {
+        if (huidigeUitlening == null && exemplaar_ID != null && !uitlening_set) {
             try {
                 Database database = new Database();
                 this.huidigeUitlening = database.getHuidigeUitlening(this.exemplaar_ID);

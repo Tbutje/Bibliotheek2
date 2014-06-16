@@ -53,11 +53,17 @@
                     <br/>
                     <h:commandButton value="Titel toevoegen" 
                                      action="#{boekEditBean.titelToevoegen()}"
-                                     styleClass="knop"/>
+                                     styleClass="knop"
+                                     rendered="#{boekEditBean.isNieuw_boek()}"/>
+                    
+                    <h:commandButton value="Titel wijzigen" 
+                                     action="#{boekEditBean.titelToevoegen()}"
+                                     styleClass="knop"
+                                     rendered="#{not boekEditBean.isNieuw_boek()}"/>
                 </h:panelGroup>
             </h:panelGrid>
-            <h:commandButton value="Annuleren" 
-                             action="#{boekEditBean.annuleren()}"
+            <h:commandButton value="Terug" 
+                             action="#{boekEditBean.terug()}"
                              styleClass="knop"/>
             <h:messages/>
         </h:body>
