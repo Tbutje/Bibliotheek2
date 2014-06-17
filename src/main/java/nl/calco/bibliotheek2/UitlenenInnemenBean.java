@@ -115,13 +115,55 @@ public class UitlenenInnemenBean implements Serializable {
     }
 
     public void verwijderen() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        // verwijderen eerst uitleenhistory
+
+        try {
+            Integer exemplaar_id = this.geselecteerdExemplaar.getExemplaar_ID();
+
+            Database database = new Database();
+            database.verwijderUitleningen(exemplaar_id);
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+
+        //verwijder dan exemplaar
+        try {
+            Database database = new Database();
+            database.verwijderExemplaar(geselecteerdExemplaar);
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+
+        //refresh gegevens
+        this.refresh();
     }
 
     public void exemplaarToevoegen() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        // voeg 1 exemplaar toe
+
+        try {
+            Database database = new Database();
+            List<Exemplaar> exemplaren_tmp = database.getExemplaren(boek.getBoek_ID());
+            Integer exemplaar_aantal = Integer.parseInt(exemplaren_tmp.get(exemplaren_tmp.size() - 1).getExemplaarVolgnummer().toString());
+
+            // vang af als er nog geen exemplaren zijn
+            if (exemplaar_aantal < 1) {
+                database.insertExemplaar(boek.getBoek_ID(), 1);
+            } else {
+                database.insertExemplaar(boek.getBoek_ID(),
+                        exemplaar_aantal + 1,
+                        1);
+            }
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+
+        //en refresh
+        this.refresh();
+
     }
 
     public String wijzigen() {
@@ -158,5 +200,10 @@ public class UitlenenInnemenBean implements Serializable {
         }
 
         return medewerker;
+    }
+
+    private void refresh() {
+        exemplaren = null;
+        geselecteerdExemplaar = null;
     }
 }

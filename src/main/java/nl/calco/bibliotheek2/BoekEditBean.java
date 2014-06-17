@@ -129,6 +129,125 @@ public class BoekEditBean implements Serializable {
     }
 
     public void titelToevoegen() {
+        this.checkInput();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        //als er geen fouten zijn vooer het dan door :)
+        // beetje hackie, maar dit checken door te kijken of er geen messages zijn
+        if (context.getMessageList().isEmpty()) {
+
+            // sla het boek op en krijg boek_id terug
+            try {
+                Database database = new Database();
+                this.boek = database.insertBoek(this.boek);
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+            // voeg de exemplaren toe als exemplaar edit != true
+            if (!this.isExemplaar_edit()) {
+                try {
+                    Database database = new Database();
+                    database.insertExemplaar(this.boek.getBoek_ID(), Integer.parseInt(exemplaren));
+                } catch (SQLException | NamingException ex) {
+                    LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                    System.out.println(ex.getMessage());
+                }
+            }
+
+            // clear scherm
+        }
+
+    }
+
+    public String terug() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+
+        if (sessionMap.containsKey("vanwaar")) {
+
+            // kijk waar we vandan komen
+            String vanwaar = (String) sessionMap.get("vanwaar");
+            sessionMap.remove("vanwaar");
+
+            // krijg een vers boek.
+            try {
+                Database database = new Database();
+                this.boek = database.getBoek(this.boek.getBoek_ID());
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+            if (vanwaar.equals("vanuitlenen")) {
+                // stop alles weer in sessionmap
+                sessionMap.put("boek", this.boek);
+                return "uitleneninnemen";
+            } else {
+                // niks in session map als we terug naar boeken gaan
+                return "naarboeken";
+            }
+        } else {
+            // niks in session map als we terug naar boeken gaan
+            return "naarboeken";
+        }
+
+        //      sessionMap.remove("boek");
+    }
+
+    public void exemplaarOpslaan() {
+        // voeg boekwijzigingen door
+        titelWijzigen();
+
+        //voer exemplaar wijzigingen door. oftewel vermist status
+        try {
+            Database database = new Database();
+            database.updateExemplaar(exemplaar);
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
+    public void titelWijzigen() {
+        this.checkInput();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        //als er geen fouten zijn vooer het dan door :)
+        // beetje hackie, maar dit checken door te kijken of er geen messages zijn
+        if (context.getMessageList().isEmpty()) {
+
+            // update het boek op en krijg boek_id terug
+            try {
+                Database database = new Database();
+                database.updateBoek(this.boek);
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+            // voeg de exemplaren toe als exemplaar edit != true
+            if (!this.isExemplaar_edit()) {
+                String exemplaar_aantal = getExemplaar_aantal();
+                try {
+                    Database database = new Database();
+                    database.insertExemplaar(boek.getBoek_ID(),
+                                Integer.parseInt(exemplaar_aantal) + 1,
+                                Integer.parseInt(exemplaar_aantal) + 1 + Integer.parseInt(exemplaren));
+                } catch (SQLException | NamingException ex) {
+                    LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                    System.out.println(ex.getMessage());
+                }
+            }
+
+            // clear scherm
+        }
+
+    }
+
+    private void checkInput() {
         FacesContext context = FacesContext.getCurrentInstance();
 
         // check titel
@@ -157,19 +276,21 @@ public class BoekEditBean implements Serializable {
 
         // exemplaren verplicht, numeriek, integer niet negatief
         // integer.parse geeft error bij float en text
-        try {
+        // niet doen als we in exemplaar edit mode zijn
+        if (!this.exemplaar_edit) {
+            try {
 
-            // check niet negatief
-            if (Integer.parseInt(exemplaren) < 0) {
-                //              FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Aantal exemplaren mag niet lager dan 0 zijn"));
+                // check niet negatief
+                if (Integer.parseInt(exemplaren) < 0) {
+                    //              FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage("Aantal exemplaren mag niet lager dan 0 zijn"));
+                }
+
+            } catch (NumberFormatException ex) {
+                //          FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Aantal exemplaren moet een positief heel getal zijn, geen text of float"));
             }
-
-        } catch (NumberFormatException ex) {
-            //          FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Aantal exemplaren moet een positief heel getal zijn, geen text of float"));
         }
-
         //check isbn
         if (!this.boek.getIsbn().isEmpty()) {
             String isbn = this.boek.getIsbn().trim();
@@ -228,66 +349,24 @@ public class BoekEditBean implements Serializable {
             context.addMessage(null, new FacesMessage("ISBN mag niet leeg zijn"));
         }
 
-        //als er geen fouten zijn vooer het dan door :)
-        // beetje hackie, maar dit checken door te kijken of er geen messages zijn
-        if (context.getMessageList().isEmpty()) {
-
-            // sla het boek op en krijg boek_id terug
-            try {
-                Database database = new Database();
-                this.boek = database.insertBoek(this.boek);
-            } catch (SQLException | NamingException ex) {
-                LOGGER.log(Level.SEVERE, "Error {0}", ex);
-                System.out.println(ex.getMessage());
-            }
-
-            // voeg de exemplaren toe
-            try {
-                Database database = new Database();
-                database.insertExemplaar(this.boek.getBoek_ID(), Integer.parseInt(exemplaren));
-            } catch (SQLException | NamingException ex) {
-                LOGGER.log(Level.SEVERE, "Error {0}", ex);
-                System.out.println(ex.getMessage());
-            }
-
-            // clear scherm
-        }
-
     }
 
-    public String terug() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+    // helper functie om huidige hoogste exemplaar te vinden
+    private String getExemplaar_aantal() {
+        List<Exemplaar> exemplaren;
+        String exemplaar_aantal = new String();
 
-        if (sessionMap.containsKey("vanwaar")) {
+        try {
+            Database database = new Database();
+            exemplaren = database.getExemplaren(boek.getBoek_ID());
+            // get last row of exemplaren to get highest number
+            exemplaar_aantal = exemplaren.get(exemplaren.size() - 1).getExemplaarVolgnummer().toString();
 
-            // kijk waar we vandan komen
-            String vanwaar = (String) sessionMap.get("vanwaar");
-            sessionMap.remove("vanwaar");
-
-            // krijg een vers boek.
-            try {
-                Database database = new Database();
-                this.boek = database.getBoek(this.boek.getBoek_ID());
-            } catch (SQLException | NamingException ex) {
-                LOGGER.log(Level.SEVERE, "Error {0}", ex);
-                System.out.println(ex.getMessage());
-            }
-
-            if (vanwaar.equals("vanuitlenen")) {
-                // stop alles weer in sessionmap
-                sessionMap.put("boek", this.boek);
-                return "uitleneninnemen";
-            } else {
-                // niks in session map als we terug naar boeken gaan
-                return "naarboeken";
-            }
-        } else {
-            // niks in session map als we terug naar boeken gaan
-            return "naarboeken";
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
         }
 
-        //      sessionMap.remove("boek");
+        return exemplaar_aantal;
     }
-
 }

@@ -92,7 +92,7 @@ public class Exemplaar implements Serializable {
         this.datumAanschaf = datumAanschaf;
     }
 
-    public Boolean isVermist() {
+    public Boolean getVermist() {
         return vermist;
     }
 

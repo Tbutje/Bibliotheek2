@@ -28,12 +28,15 @@
                     <br/>
                     <h:outputText value="Locatie"/>  
                     <br/>
-                    <h:outputText value="Aantal exemplaren"/>
+                    <h:outputText value="Aantal exemplaren"
+                                  rendered="#{not boekEditBean.isExemplaar_edit()}"/>
                     <br/>
+                    <h:outputText value="is vermist: "
+                                   rendered="#{boekEditBean.isExemplaar_edit()}"/>
                 </h:panelGroup>
                 <h:panelGroup>
                     <h:inputText value = "#{boekEditBean.boek.boekNummer}" size="50" maxlength="40" readonly="true" style="height: 11px"/>
-                    <h:outputText value="Exemplaar" rendered="#{boekEditBean.isExemplaar_edit()}"/> <h:outputText value="#{boekEditBean.exemplaar.exemplaarVolgnummer}" rendered="#{boekEditBean.isExemplaar_edit()}"/>
+                    <h:outputText value="Exemplaar " rendered="#{boekEditBean.isExemplaar_edit()}"/> <h:inputText readonly="true" value="#{boekEditBean.exemplaar.exemplaarVolgnummer}" rendered="#{boekEditBean.isExemplaar_edit()}"/>
                     <br/>
                     <h:inputText value = "#{boekEditBean.boek.titel}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
@@ -50,15 +53,15 @@
                     <br/>
                     <h:inputText value = "#{boekEditBean.boek.locatie}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
-                    <h:inputText value = "#{boekEditBean.exemplaren}" size="50" maxlength="40" style="height: 11px"/>
-                                 <h:outputText value="Exemplaar" rendered="#{not boekEditBean.isExemplaar_edit()}"/>
+                    <h:inputText value = "#{boekEditBean.exemplaren}" size="50" maxlength="40" style="height: 11px"
+                               rendered="#{not boekEditBean.isExemplaar_edit()}"/>
                         <br/>
-                        <h:selectBooleanCheckbox value ="#{boekEditBean.exemplaar.isVermist()}"
+                        <h:selectBooleanCheckbox value ="#{boekEditBean.exemplaar.vermist}"
                                                  rendered="#{boekEditBean.isExemplaar_edit()}"/>
-                        
+                        <br/>
                         <!-- deze knop is voor het wijzigen van exemplaren -->
-                        <h:commandButton value="Wzijgigingen opslaan" 
-                                         action="#{boekEditBean.titelToevoegen()}"
+                        <h:commandButton value="Exemplaar opslaan" 
+                                         action="#{boekEditBean.exemplaarOpslaan()}"
                                          styleClass="knop"
                                          rendered="#{boekEditBean.isExemplaar_edit()}"/>
                         

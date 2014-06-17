@@ -319,6 +319,41 @@ public class Database {
         return boek;
     }
 
+    public void updateBoek(Boek boek) throws NamingException, SQLException {
+        //update Categorien set Omschrijving = ? where Categorie_ID = ?
+
+        String sql = "update Boeken set BoekNummer = ?, Titel = ?, Auteur = ?, Uitgeverij = ?, ISBN = ?, Locatie = ?, Categorie_ID = ?"
+                + " where Boek_ID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, boek.getBoekNummer());
+            preparedStatement.setString(2, boek.getTitel());
+            preparedStatement.setString(3, boek.getAuteur());
+            preparedStatement.setString(4, boek.getUitgeverij());
+            preparedStatement.setString(5, boek.getIsbn());
+            preparedStatement.setString(6, boek.getLocatie());
+            preparedStatement.setInt(7, boek.getCategorie_ID());
+            preparedStatement.setInt(8, boek.getBoek_ID());
+
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+
+        }
+
+    }
+
     //*EIND* FUNCTIES VOOR BOEKEDIT/TOEVOEGEN
 //*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN
     public List<Exemplaar> getExemplaren(Integer boek_ID) throws SQLException, NamingException {
@@ -417,6 +452,33 @@ public class Database {
 
                 preparedStatement.executeUpdate();
             }
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+
+        }
+
+    }
+
+    public void updateExemplaar(Exemplaar exemplaar) throws NamingException, SQLException {
+
+        String sql = "update Exemplaren set Vermist = ? where Exemplaar_ID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setBoolean(1, exemplaar.getVermist());
+            preparedStatement.setInt(2, exemplaar.getExemplaar_ID());
+
+            preparedStatement.executeUpdate();
 
         } finally {
             if (preparedStatement != null && !preparedStatement.isClosed()) {
@@ -607,6 +669,7 @@ public class Database {
         }
     }
 
+//*********FUNCTIES VOOR INNEMEN/UITNEMEN
     public void updateUitlening(Uitlening uitlening) throws NamingException, SQLException {
 
         String sql = "update Uitleningen set DatumInleveren = ?"
@@ -624,6 +687,54 @@ public class Database {
             preparedStatement.setDate(4, Date.valueOf(uitlening.getDatumUitleen()));
             preparedStatement.setDate(1, Date.valueOf(uitlening.getDatumInleveren()));
 
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+    }
+
+    public void verwijderUitleningen(Integer exemplaar_id) throws NamingException, SQLException {
+
+        String sql = "delete from Uitleningen where Exemplaar_ID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, exemplaar_id);
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+    }
+
+    public void verwijderExemplaar(Exemplaar exemplaar) throws NamingException, SQLException {
+
+        String sql = "delete from Exemplaren where Exemplaar_ID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, exemplaar.getExemplaar_ID());
             preparedStatement.executeUpdate();
 
         } finally {

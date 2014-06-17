@@ -108,7 +108,7 @@
                                 <f:facet name ="header">
                                     <h:outputLabel value ="Vermist"/>
                                 </f:facet>
-                                <input type="checkbox" name="isvermist" value="#{item.isVermist()}" />
+                                <h:selectBooleanCheckbox value ="#{item.vermist}" disabled="true"/>
                             </h:column>
 
                         </h:dataTable>
@@ -120,29 +120,32 @@
 
                     <h:commandButton value="Boek Wijzigen" 
                                      action="#{uitlenenInnemenBean.wijzigen()}"
-                                     styleClass="knop"/>
+                                     styleClass="knopBreed"/>
                     <br/>
                     <h:commandButton value="Innemen" 
                                      action="#{uitlenenInnemenBean.innemen()}"
-                                     styleClass="knop"
+                                     styleClass="knopBreed"
                                      onclick="return confirm('Weet u zeker dat het boek   \n\
                                      #{uitlenenInnemenBean.geselecteerdExemplaar.exemplaarVolgnummer} wilt innemen?')"
-                                      disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"
+                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"
                                      />
                     <br/>
                     <h:commandButton value="Uitlenen" 
                                      action="#{uitlenenInnemenBean.uitlenen()}"
-                                     styleClass="knop"
+                                     styleClass="knopBreed"
                                      disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"
                                      />
                     <br/>
                     <h:commandButton value="Exemplaar bewerken" 
                                      action="#{uitlenenInnemenBean.bewerken()}"
-                                     styleClass="knop"/>
+                                     styleClass="knopBreed"
+                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"/>
                     <br/>
-                    <h:commandButton value="verwijderen" 
+                    <h:commandButton value="Exemplaar verwijderen" 
                                      action="#{uitlenenInnemenBean.verwijderen()}"
-                                     styleClass="knop"/>
+                                     styleClass="knopBreed"
+                                     onclick="return confirm('Weet u zeker dat het boek wilt verwijderen?')"
+                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"/>
                     <br/>
 
                 </h:panelGroup>
