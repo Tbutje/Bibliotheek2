@@ -118,19 +118,25 @@
 
 
 
-                    <h:commandButton value="Wijzigen" 
+                    <h:commandButton value="Boek Wijzigen" 
                                      action="#{uitlenenInnemenBean.wijzigen()}"
                                      styleClass="knop"/>
                     <br/>
                     <h:commandButton value="Innemen" 
                                      action="#{uitlenenInnemenBean.innemen()}"
-                                     styleClass="knop"/>
+                                     styleClass="knop"
+                                     onclick="return confirm('Weet u zeker dat het boek   \n\
+                                     #{uitlenenInnemenBean.geselecteerdExemplaar.exemplaarVolgnummer} wilt innemen?')"
+                                      disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"
+                                     />
                     <br/>
                     <h:commandButton value="Uitlenen" 
                                      action="#{uitlenenInnemenBean.uitlenen()}"
-                                     styleClass="knop"/>
+                                     styleClass="knop"
+                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"
+                                     />
                     <br/>
-                    <h:commandButton value="bewerken" 
+                    <h:commandButton value="Exemplaar bewerken" 
                                      action="#{uitlenenInnemenBean.bewerken()}"
                                      styleClass="knop"/>
                     <br/>

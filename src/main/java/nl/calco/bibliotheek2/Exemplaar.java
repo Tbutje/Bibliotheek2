@@ -39,7 +39,7 @@ public class Exemplaar implements Serializable {
                 LOGGER.log(Level.SEVERE, "Error {0}", ex);
                 System.out.println(ex.getMessage());
             }
-            
+
         }
         return boek;
     }
@@ -98,6 +98,12 @@ public class Exemplaar implements Serializable {
 
     public void setVermist(Boolean vermist) {
         this.vermist = vermist;
+    }
+
+    public void refresh() {
+        huidigeUitlening = null;
+        uitlening_set = false;
+        boek = null;
     }
 
 }

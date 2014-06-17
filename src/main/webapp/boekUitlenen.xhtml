@@ -84,7 +84,12 @@
                 <h:panelGroup>
                     <h:commandButton value="Uitlenen" 
                                      action="#{boekUitlenenBean.uitlenen()}"
-                                     styleClass="knop"/>
+                                     styleClass="knop"
+                                     onclick="return confirm ('Weet u zeker dat het boek aan \n\
+                                     #{boekUitlenenBean.geselecteerdeMedewerker.fullNaam()} wilt uitlenen?')"
+                                      disabled ="#{empty boekUitlenenBean.geselecteerdeMedewerker}"
+                                      />
+                    
 
 
                 </h:panelGroup>
@@ -97,6 +102,8 @@
             <h:outputLabel value="Geselecteerd : #{boekUitlenenBean.geselecteerdeMedewerker.fullNaam()}"
                            rendered="#{not empty boekUitlenenBean.geselecteerdeMedewerker}"/>
             <br/>
+            <br/>
+            
             <h:messages/>
         </h:body>
     </h:form>

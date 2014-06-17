@@ -24,7 +24,15 @@ public class Uitlening implements Serializable {
     private Integer medewerker_ID;
     private LocalDate datumUitleen;
     private Medewerker medewerker = null;
-//    private LocalDate datumInleveren;
+    private LocalDate datumInleveren;
+
+    public LocalDate getDatumInleveren() {
+        return datumInleveren;
+    }
+
+    public void setDatumInleveren(LocalDate datumInleveren) {
+        this.datumInleveren = datumInleveren;
+    }
 
     public Medewerker getMedewerker() {
         if (medewerker == null && medewerker_ID != null) {

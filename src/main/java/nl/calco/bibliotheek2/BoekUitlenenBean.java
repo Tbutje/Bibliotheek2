@@ -7,6 +7,7 @@ package nl.calco.bibliotheek2;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -64,11 +65,23 @@ public class BoekUitlenenBean implements Serializable {
         return exemplaar;
     }
 
-    public String terug(){
+    public String terug() {
         return "naaruitleneninnemen";
     }
-    
-    public void uitlenen(){
-        
+
+    public String uitlenen() {
+        Uitlening uitlening = new Uitlening();
+        uitlening.setExemplaar_ID(exemplaar.getExemplaar_ID());
+        uitlening.setMedewerker_ID(geselecteerdeMedewerker.getMedewerker_ID());
+        uitlening.setDatumUitleen(LocalDate.now());
+
+        try {
+            Database database = new Database();
+            database.insertUitlening(uitlening);
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+        return "naaruitleneninnemen";
     }
 }

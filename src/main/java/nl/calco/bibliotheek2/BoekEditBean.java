@@ -36,11 +36,22 @@ public class BoekEditBean implements Serializable {
     private List<SelectItem> categorieSelectie = null;
     private String exemplaren;
     private Boolean nieuw_boek = false;
+    //extra toevoegingen om ook voor exemplaren te gebruiken
+
+    private Boolean exemplaar_edit = false;
+    private Exemplaar exemplaar = null;
+
+    public Boolean isExemplaar_edit() {
+        return exemplaar_edit;
+    }
+
+    public Exemplaar getExemplaar() {
+        return exemplaar;
+    }
 
     public Boolean isNieuw_boek() {
         return nieuw_boek;
     }
-    
 
     public void setExemplaren(String exemplaren) {
         this.exemplaren = exemplaren;
@@ -83,6 +94,15 @@ public class BoekEditBean implements Serializable {
             if (sessionMap.containsKey("boek")) {
                 this.boek = (Boek) sessionMap.get("boek");
                 sessionMap.remove("boek");
+
+                //controleer of er ook een exemplaar is
+                // dat betekend dat we in exemplaar edit mode gaan
+                if (sessionMap.containsKey("exemplaar")) {
+                    this.exemplaar = (Exemplaar) sessionMap.get("exemplaar");
+                    this.exemplaar_edit = true;
+                    sessionMap.remove("exemplaar");
+                }
+
             } else {
                 nieuw_boek = true;
                 this.boek = new Boek();

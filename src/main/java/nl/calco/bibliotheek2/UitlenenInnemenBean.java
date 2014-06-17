@@ -7,6 +7,8 @@ package nl.calco.bibliotheek2;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -45,7 +47,7 @@ public class UitlenenInnemenBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
             this.boek = (Boek) sessionMap.get("boek");
-            sessionMap.remove("boek");
+            //         sessionMap.remove("boek");
         }
         return boek;
     }
@@ -73,12 +75,26 @@ public class UitlenenInnemenBean implements Serializable {
     public String annuleren() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+
+        sessionMap.remove("boek");
         return "naarboeken";
     }
 
     public void innemen() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Uitlening uitlening = new Uitlening();
+        uitlening.setExemplaar_ID(geselecteerdExemplaar.getExemplaar_ID());
+        uitlening.setMedewerker_ID(geselecteerdExemplaar.getHuidigeUitlening().getMedewerker_ID());
+        uitlening.setDatumUitleen(geselecteerdExemplaar.getHuidigeUitlening().getDatumUitleen());
+        uitlening.setDatumInleveren(LocalDate.now());
+
+        try {
+            Database database = new Database();
+            database.updateUitlening(uitlening);
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+        geselecteerdExemplaar.refresh();
     }
 
     public String uitlenen() {
@@ -88,9 +104,14 @@ public class UitlenenInnemenBean implements Serializable {
         return "naaruitlenen";
     }
 
-    public void bewerken() {
+    public String bewerken() {
+        // dit wijzigt boek + exemplaar
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("exemplaar", this.geselecteerdExemplaar);
+        sessionMap.put("boek", this.boek);
+        sessionMap.put("vanwaar", "vanuitlenen");
+        return "boekedit";
     }
 
     public void verwijderen() {
@@ -104,6 +125,7 @@ public class UitlenenInnemenBean implements Serializable {
     }
 
     public String wijzigen() {
+        // dit wijzigt boek
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
         sessionMap.put("boek", this.boek);

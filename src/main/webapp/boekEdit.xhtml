@@ -33,6 +33,7 @@
                 </h:panelGroup>
                 <h:panelGroup>
                     <h:inputText value = "#{boekEditBean.boek.boekNummer}" size="50" maxlength="40" readonly="true" style="height: 11px"/>
+                    <h:outputText value="Exemplaar" rendered="#{boekEditBean.isExemplaar_edit()}"/> <h:outputText value="#{boekEditBean.exemplaar.exemplaarVolgnummer}" rendered="#{boekEditBean.isExemplaar_edit()}"/>
                     <br/>
                     <h:inputText value = "#{boekEditBean.boek.titel}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
@@ -50,16 +51,28 @@
                     <h:inputText value = "#{boekEditBean.boek.locatie}" size="50" maxlength="40" style="height: 11px"/>
                     <br/>
                     <h:inputText value = "#{boekEditBean.exemplaren}" size="50" maxlength="40" style="height: 11px"/>
-                    <br/>
-                    <h:commandButton value="Titel toevoegen" 
-                                     action="#{boekEditBean.titelToevoegen()}"
-                                     styleClass="knop"
-                                     rendered="#{boekEditBean.isNieuw_boek()}"/>
-                    
-                    <h:commandButton value="Titel wijzigen" 
-                                     action="#{boekEditBean.titelToevoegen()}"
-                                     styleClass="knop"
-                                     rendered="#{not boekEditBean.isNieuw_boek()}"/>
+                                 <h:outputText value="Exemplaar" rendered="#{not boekEditBean.isExemplaar_edit()}"/>
+                        <br/>
+                        <h:selectBooleanCheckbox value ="#{boekEditBean.exemplaar.isVermist()}"
+                                                 rendered="#{boekEditBean.isExemplaar_edit()}"/>
+                        
+                        <!-- deze knop is voor het wijzigen van exemplaren -->
+                        <h:commandButton value="Wzijgigingen opslaan" 
+                                         action="#{boekEditBean.titelToevoegen()}"
+                                         styleClass="knop"
+                                         rendered="#{boekEditBean.isExemplaar_edit()}"/>
+                        
+                        <!-- deze knop staat aan bij het toevoegen van een titel-->
+                        <h:commandButton value="Titel toevoegen" 
+                                         action="#{boekEditBean.titelToevoegen()}"
+                                         styleClass="knop"
+                                         rendered="#{boekEditBean.isNieuw_boek()}"/>
+                        
+                        <!-- deze knop staat aan bij het wijzigen van een titel -->
+                        <h:commandButton value="Titel wijzigen" 
+                                         action="#{boekEditBean.titelToevoegen()}"
+                                         styleClass="knop"
+                                         rendered="#{not boekEditBean.isNieuw_boek()}"/>
                 </h:panelGroup>
             </h:panelGrid>
             <h:commandButton value="Terug" 

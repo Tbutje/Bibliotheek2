@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -274,9 +275,9 @@ public class Database {
 
     public Boek getBoek(Integer boek_ID) throws SQLException, NamingException {
         Boek boek = new Boek();
-        String sql = "select * from boeken"        
+        String sql = "select * from boeken"
                 + " left join Categorien"
-                + " on Boeken.Categorie_ID = Categorien.Categorie_ID" 
+                + " on Boeken.Categorie_ID = Categorien.Categorie_ID"
                 + " where Boek_ID = ?";
 
         Connection connection = null;
@@ -575,5 +576,64 @@ public class Database {
         }
 
         return result;
+    }
+
+    public void insertUitlening(Uitlening uitlening) throws NamingException, SQLException {
+
+        String sql = "insert into Uitleningen (Exemplaar_ID, Medewerker_ID, DatumUitleen, DatumInleveren)"
+                + " values (?,?,?,?)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, uitlening.getExemplaar_ID());
+            preparedStatement.setInt(2, uitlening.getMedewerker_ID());
+            preparedStatement.setDate(3, Date.valueOf(uitlening.getDatumUitleen()));
+            preparedStatement.setNull(4, Types.DATE);
+
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    }
+
+    public void updateUitlening(Uitlening uitlening) throws NamingException, SQLException {
+
+        String sql = "update Uitleningen set DatumInleveren = ?"
+                + " where Exemplaar_ID = ? and Medewerker_ID = ? and DatumUitleen = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(2, uitlening.getExemplaar_ID());
+            preparedStatement.setInt(3, uitlening.getMedewerker_ID());
+            preparedStatement.setDate(4, Date.valueOf(uitlening.getDatumUitleen()));
+            preparedStatement.setDate(1, Date.valueOf(uitlening.getDatumInleveren()));
+
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
     }
 }
