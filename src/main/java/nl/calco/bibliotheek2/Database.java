@@ -355,7 +355,7 @@ public class Database {
     }
 
     //*EIND* FUNCTIES VOOR BOEKEDIT/TOEVOEGEN
-//*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN
+//*********FUNCTIES VOOR EXEMPLAREN TOEVOEGEN**********************************
     public List<Exemplaar> getExemplaren(Integer boek_ID) throws SQLException, NamingException {
         List<Exemplaar> result = new ArrayList<>();
         String sql = "select * from Exemplaren where Boek_ID = ? order by ExemplaarVolgnummer";
@@ -685,7 +685,13 @@ public class Database {
             preparedStatement.setInt(2, uitlening.getExemplaar_ID());
             preparedStatement.setInt(3, uitlening.getMedewerker_ID());
             preparedStatement.setDate(4, Date.valueOf(uitlening.getDatumUitleen()));
-            preparedStatement.setDate(1, Date.valueOf(uitlening.getDatumInleveren()));
+
+            // vang hier af als datum == null
+            if (uitlening.getDatumInleveren() == null) {
+                preparedStatement.setNull(1, java.sql.Types.NULL);
+            } else {
+                preparedStatement.setDate(1, Date.valueOf(uitlening.getDatumInleveren()));
+            }
 
             preparedStatement.executeUpdate();
 
@@ -770,7 +776,7 @@ public class Database {
                 uitlening.setExemplaar_ID(resultSet.getInt("Exemplaar_ID"));
                 uitlening.setMedewerker_ID(resultSet.getInt("Medewerker_ID"));
                 uitlening.setDatumUitleen(resultSet.getDate("DatumUitleen").toLocalDate());
-                
+
                 // soms is de datum null dit willen we afvangen
                 try {
                     uitlening.setDatumInleveren(resultSet.getDate("DatumInleveren").toLocalDate());
@@ -831,6 +837,78 @@ public class Database {
         }
 
         return exemplaar;
+    }
+
+    //*****Eind* FUNCTIES VOOR EXEMPLAREN TOEVOEGEN**********************************
+    //*********FUNCTIES VOOR MEDEWERKERs TOEVOEGEN**********************************
+    public void insertMedewerker(Medewerker medewerker) throws NamingException, SQLException {
+
+        String sql = "insert into Medewerkers (Achternaam, Voornaam, Tussenvoegsel, Email)"
+                + " values (?,?,?,?)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, medewerker.getAchternaam());
+            preparedStatement.setString(2, medewerker.getVoornaam());
+            preparedStatement.setString(4, medewerker.getEmail());
+
+            // check tussen == null
+            if (medewerker.getTussenVoegsel() == null) {
+                preparedStatement.setNull(3, Types.VARCHAR);
+            } else {
+                preparedStatement.setString(3, medewerker.getTussenVoegsel());
+            }
+
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    }
+
+    public void updateMedewerker(Medewerker medewerker) throws NamingException, SQLException {
+
+        String sql = "update Medewerkers set Achternaam = ?, Voornaam = ?, Tussenvoegsel = ?, Email = ? where Medewerker_ID = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, medewerker.getAchternaam());
+            preparedStatement.setString(2, medewerker.getVoornaam());
+            preparedStatement.setString(4, medewerker.getEmail());
+            preparedStatement.setInt(5, medewerker.getMedewerker_ID());
+
+            // check tussen == null
+            if (medewerker.getTussenVoegsel() == null) {
+                preparedStatement.setNull(3, Types.VARCHAR);
+            } else {
+                preparedStatement.setString(3, medewerker.getTussenVoegsel());
+            }
+
+            preparedStatement.executeUpdate();
+
+        } finally {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
     }
 
 }

@@ -53,9 +53,11 @@ public class MedewerkersBean implements Serializable {
         return geselecteerdeMedewerker;
     }
 
-    public void medewerkerWijzigen() {
+    public String medewerkerWijzigen() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        sessionMap.put("medewerker", this.geselecteerdeMedewerker);
+        return "medewerkeredit";
     }
 
     public String toonBoeken() {
@@ -66,9 +68,8 @@ public class MedewerkersBean implements Serializable {
         return "toonboeken";
     }
 
-    public void medewerkerToevoegen() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    public String medewerkerToevoegen() {
+       return "medewerkeredit";
 
     }
 

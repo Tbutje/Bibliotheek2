@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <!--kopje-->
+    <h:head>
+        <title>Medewerker toevoegen of wijzigen</title>
+        <link href="bibliostyle.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    
+    <h:form>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Medewerker toevoegen of wijzigen" styleClass="kop"/>
+
+            <!--penelgrid om het in 2 colommen te verdelen-->
+            <h:panelGrid columns ="2" styleClass="panelColumns" cellspacing="4" cellpadding="4">
+                <h:panelGroup>
+                    Voornaam
+                    <br/>
+                    Tussenvoegsel
+                    <br/>
+                    Achternaam
+                    <br/>
+                    Email
+                    <br/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:inputText value = "#{medewerkerEditBean.medewerker.voornaam}" size="100" maxlength="90"/>
+                    <br/>
+                    <h:inputText value = "#{medewerkerEditBean.medewerker.tussenVoegsel}" size="100" maxlength="90"/>
+                    <br/>
+                    <h:inputText value = "#{medewerkerEditBean.medewerker.achternaam}" size="100" maxlength="90"/>
+                    <br/>
+                    <h:inputText value = "#{medewerkerEditBean.medewerker.email}" size="100" maxlength="90"/>
+                    <br/>
+                </h:panelGroup>
+            </h:panelGrid>
+            
+            <h:commandButton value="Annuleren" action = "#{medewerkerEditBean.annuleren()}" style="knopBreed"/>
+            <h:commandButton value="Opslaan" action = "#{medewerkerEditBean.opslaan()}" style="knopBreed"/>
+            <br/>
+            <h:messages/>
+        </h:body>
+    </h:form>
+</html>
+

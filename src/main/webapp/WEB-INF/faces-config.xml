@@ -152,13 +152,31 @@
         </navigation-case>
     </navigation-rule>
     
-        <navigation-rule>
+    <navigation-rule>
         <from-view-id>/medBoeken.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>naarmedewerkers</from-outcome>
             <to-view-id>/medewerkers.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+        
+    <navigation-rule>
+        <from-view-id>/medewerkers.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>medewerkeredit</from-outcome>
+            <to-view-id>/medewerkerEdit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+      <navigation-rule>
+        <from-view-id>/medewerkerEdit.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>medewerkers</from-outcome>
+            <to-view-id>/medewerkers.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
     
     
     

@@ -93,7 +93,7 @@ public class BoekenBean implements Serializable {
 
     public void overzichten() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+        context.addMessage(null, new FacesMessage("Dit is nog niet geimplementeerd"));
     }
 
     public String medewerkers() {

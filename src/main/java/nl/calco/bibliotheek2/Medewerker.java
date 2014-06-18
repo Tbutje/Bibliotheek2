@@ -32,7 +32,7 @@ public class Medewerker implements Serializable {
     }
 
     public void setAchternaam(String achternaam) {
-        this.achternaam = achternaam;
+        this.achternaam = achternaam.trim();
     }
 
     public String getVoornaam() {
@@ -40,7 +40,7 @@ public class Medewerker implements Serializable {
     }
 
     public void setVoornaam(String voornaam) {
-        this.voornaam = voornaam;
+        this.voornaam = voornaam.trim();
     }
 
     public String getTussenVoegsel() {
@@ -48,7 +48,12 @@ public class Medewerker implements Serializable {
     }
 
     public void setTussenVoegsel(String tussenVoegsel) {
-        this.tussenVoegsel = tussenVoegsel;
+        if (tussenVoegsel == null) {
+            this.tussenVoegsel = tussenVoegsel;
+        } else {
+            this.tussenVoegsel = tussenVoegsel.trim();
+        }
+
     }
 
     public String getEmail() {
@@ -56,11 +61,11 @@ public class Medewerker implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 
     public String fullNaam() {
-        if ( tussenVoegsel == null || tussenVoegsel.isEmpty() ) {
+        if (tussenVoegsel == null || tussenVoegsel.isEmpty()) {
             return voornaam + " " + achternaam;
         } else {
             return voornaam + " " + tussenVoegsel + achternaam;
