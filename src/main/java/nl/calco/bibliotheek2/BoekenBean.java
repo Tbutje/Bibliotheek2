@@ -96,9 +96,8 @@ public class BoekenBean implements Serializable {
         context.addMessage(null, new FacesMessage("Werkt nog niet"));
     }
 
-    public void medewerkers() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Werkt nog niet"));
+    public String medewerkers() {
+        return "medewerkers";
     }
 
     // deze functie is om een boek te selecteren

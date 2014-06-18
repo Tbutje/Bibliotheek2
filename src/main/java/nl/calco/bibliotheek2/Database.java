@@ -747,4 +747,90 @@ public class Database {
         }
 
     }
+
+    //*********FUNCTIES VOOR INNEMEN/UITNEMEN
+    public List<Uitlening> getUitleningen(Integer medewerker_ID) throws SQLException, NamingException {
+
+        List<Uitlening> result = new ArrayList<>();
+        String sql = "select * from Uitleningen where Medewerker_ID = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, medewerker_ID);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Uitlening uitlening = new Uitlening();
+
+                uitlening.setExemplaar_ID(resultSet.getInt("Exemplaar_ID"));
+                uitlening.setMedewerker_ID(resultSet.getInt("Medewerker_ID"));
+                uitlening.setDatumUitleen(resultSet.getDate("DatumUitleen").toLocalDate());
+                
+                // soms is de datum null dit willen we afvangen
+                try {
+                    uitlening.setDatumInleveren(resultSet.getDate("DatumInleveren").toLocalDate());
+                } catch (Exception e) {
+                    uitlening.setDatumInleveren(null);
+                }
+
+                result.add(uitlening);
+            }
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return result;
+    }
+
+    public Exemplaar getExemplaar(Integer exemplaar_ID) throws SQLException, NamingException {
+        Exemplaar exemplaar = new Exemplaar();
+        String sql = "select * from Exemplaren where Exemplaar_ID = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, exemplaar_ID);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                exemplaar.setExemplaar_ID(resultSet.getInt("Exemplaar_ID"));
+                exemplaar.setBoek_ID(resultSet.getInt("Boek_ID"));
+                exemplaar.setExemplaarVolgnummer(resultSet.getInt("ExemplaarVolgnummer"));
+                exemplaar.setDatumAanschaf(
+                        resultSet.getDate("DatumAanschaf").toLocalDate());
+                exemplaar.setVermist(resultSet.getBoolean("Vermist"));
+
+            }
+
+        } finally {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+
+        return exemplaar;
+    }
+
 }

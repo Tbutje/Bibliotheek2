@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Boeken in bezit van medewerker</title>
+        <link href="bibliostyle.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:form>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Boeken in bezig van medewerker" styleClass="kop"/>
+            <br/>
+
+            Naam <h:outputLabel value="#{medBoekenBean.medewerker.fullNaam()}"/>
+            <br/>
+            Email <h:outputLabel value="#{medBoekenBean.medewerker.email}"/>
+
+
+
+            <!-- Medewerker tabel hier -->
+            <div style="width: 1500px; 
+                 height: 300px; 
+                 display: inline-block; 
+                 overflow-x: auto;
+                 overflow-y: auto;"
+                 >
+
+                <h:dataTable value="#{medBoekenBean.uitleningen}"
+                             styleClass ="table"
+                             headerClass="tableHeader" 
+                             rowClasses="tableRow"
+                             style="width: 1500px"
+                             var="item"
+                             >
+
+                    <!-- colom keuzes hier. item is de row-->
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Boeknummer"/>
+                        </f:facet>
+                        <h:commandLink value ="#{item.boek.boekNummer}" action="#{medBoekenBean.selecteer(item)}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="BoekVolgnummer"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.exemplaar.exemplaarVolgnummer}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Titel"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.boek.titel}"/>
+                    </h:column>
+
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="DatumUitleen"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.datumUitleen.dayOfMonth} -
+                                       #{item.datumUitleen.month.ordinal() + 1} -
+                                       #{item.datumUitleen.year}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="DatumInleveren"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.datumInleveren.dayOfMonth} -
+                                       #{item.datumInleveren.month.ordinal() + 1} -
+                                       #{item.datumInleveren.year}"
+                                       rendered="#{not empty item.datumInleveren}"/>
+                    </h:column>
+
+                </h:dataTable>
+            </div>
+
+            <!--knoppen an onderkant in 3 colommen-->
+            <h:panelGrid>
+                <br/>
+                <h:commandButton value="Boek innemen" action = "#{medBoekenBean.boekInnemen()}" style="knopBreed"
+                                 disabled="#{empty medBoekenBean.geselecteerdeUitlening}"/>
+
+
+                <h:commandButton value="Innemen terugdraaien" action = "#{medBoekenBean.innemenTerugDraaien()}" style="knopBreed"
+                                 />
+
+                <br/>
+            </h:panelGrid>
+            <h:commandButton value="terug" action = "#{medBoekenBean.terug()}" style="knopBreed"/>
+            <br/>
+
+            <!-- dit displayed het geselecteerde boek -->
+            <h:outputLabel value="Geselecteerd : #{medewerkersBean.geselecteerdeMedewerker.fullNaam()}"
+                           rendered="#{not empty medewerkersBean.geselecteerdeMedewerker}"/>
+
+            <!--deze displayed error berichten etc.-->
+            <h:messages/>
+        </h:body>
+    </h:form>
+</html>
+

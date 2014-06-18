@@ -70,6 +70,14 @@
     </navigation-rule>
     
     <navigation-rule>
+        <from-view-id>/boeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>medewerkers</from-outcome>
+            <to-view-id>/medewerkers.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
         <from-view-id>/uitlenenInnemen.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>boekedit</from-outcome>
@@ -127,6 +135,32 @@
             <to-view-id>/uitlenenInnemen.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/medewerkers.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naarboeken</from-outcome>
+            <to-view-id>/boeken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/medewerkers.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>toonboeken</from-outcome>
+            <to-view-id>/medBoeken.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+        <navigation-rule>
+        <from-view-id>/medBoeken.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>naarmedewerkers</from-outcome>
+            <to-view-id>/medewerkers.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
     
     
     

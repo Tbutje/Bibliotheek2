@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Medewerkers</title>
+        <link href="bibliostyle.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:form>
+        <h:body styleClass="grijze_achtergrond">
+            <h:outputLabel value="Medewerkers" styleClass="kop"/>
+            <br/>
+
+
+            <!-- Medewerker tabel hier -->
+            <div style="width: 1500px; 
+                 height: 300px; 
+                 display: inline-block; 
+                 overflow-x: auto;
+                 overflow-y: auto;"
+                 >
+
+                <h:dataTable value="#{medewerkersBean.medewerkers}"
+                             styleClass ="table"
+                             headerClass="tableHeader" 
+                             rowClasses="tableRow"
+                             style="width: 1500px"
+                             var="item"
+                             >
+
+                    <!-- colom keuzes hier. item is de row-->
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Medewerker"/>
+                        </f:facet>
+                        <h:commandLink value ="#{item.fullNaam()}" action="#{medewerkersBean.selecteerMedewerker(item)}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
+                            <h:outputLabel value ="Email"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.email}"/>
+                    </h:column>
+
+                </h:dataTable>
+            </div>
+
+            <!--knoppen an onderkant in 4 colommen-->
+            <h:panelGrid>
+            <br/>
+            <h:commandButton value="Toon boeken" action = "#{medewerkersBean.toonBoeken()}" style="knopBreed"
+                              disabled="#{empty medewerkersBean.geselecteerdeMedewerker}"/>
+
+            <!-- werkt alleen als je een Medewerker geselecteerd hebt-->
+            <h:commandButton value="Medewerker wijzigen" action = "#{medewerkersBean.medewerkerWijzigen()}" style="knopBreed"
+                             disabled="#{empty medewerkersBean.geselecteerdeMedewerker}"/>
+            <h:commandButton value="Medewerker Toevoegen" action = "#{medewerkersBean.medewerkerToevoegen()}" style="knopBreed"/>
+            <br/>
+            </h:panelGrid>
+            <h:commandButton value="terug" action = "#{medewerkersBean.terug()}" style="knopBreed"/>
+            <br/>
+
+            <!-- dit displayed het geselecteerde boek -->
+            <h:outputLabel value="Geselecteerd : #{medewerkersBean.geselecteerdeMedewerker.fullNaam()}"
+                           rendered="#{not empty medewerkersBean.geselecteerdeMedewerker}"/>
+
+            <!--deze displayed error berichten etc.-->
+            <h:messages/>
+        </h:body>
+    </h:form>
+</html>
+

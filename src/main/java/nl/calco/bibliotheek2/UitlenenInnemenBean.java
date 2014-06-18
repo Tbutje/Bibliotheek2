@@ -95,6 +95,7 @@ public class UitlenenInnemenBean implements Serializable {
             System.out.println(ex.getMessage());
         }
         geselecteerdExemplaar.refresh();
+      //  refresh();
     }
 
     public String uitlenen() {
@@ -137,6 +138,7 @@ public class UitlenenInnemenBean implements Serializable {
         }
 
         //refresh gegevens
+        geselecteerdExemplaar.refresh();
         this.refresh();
     }
 
@@ -162,6 +164,7 @@ public class UitlenenInnemenBean implements Serializable {
         }
 
         //en refresh
+        geselecteerdExemplaar.refresh();
         this.refresh();
 
     }

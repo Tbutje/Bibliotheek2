@@ -26,6 +26,43 @@ public class Uitlening implements Serializable {
     private Medewerker medewerker = null;
     private LocalDate datumInleveren;
 
+    //voeg ook boek toe voor extra info
+    private Boek boek = null;
+    private Exemplaar exemplaar = null;
+
+    public Exemplaar getExemplaar() {
+
+        if (exemplaar == null) {
+            try {
+                Database database = new Database();
+                this.exemplaar = database.getExemplaar(exemplaar_ID);
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+        }
+        return exemplaar;
+    }
+
+    public Boek getBoek() {
+        if (boek == null) {
+            if(exemplaar == null){
+                getExemplaar();
+            }
+            try {
+                Database database = new Database();
+                this.boek = database.getBoek(exemplaar.getBoek_ID());
+ 
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
+
+        }
+        return boek;
+    }
+
     public LocalDate getDatumInleveren() {
         return datumInleveren;
     }
