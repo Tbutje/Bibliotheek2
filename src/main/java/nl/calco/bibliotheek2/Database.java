@@ -379,6 +379,7 @@ public class Database {
                         resultSet.getDate("DatumAanschaf").toLocalDate()
                 );
                 exemplaar.setVermist(resultSet.getBoolean("Vermist"));
+        
 
                 result.add(exemplaar);
             }

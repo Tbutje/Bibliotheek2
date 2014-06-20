@@ -10,7 +10,9 @@
     </h:head>
 
     <h:form>
+
         <h:body styleClass="grijze_achtergrond">
+
             <h:outputLabel value="Calco Bibliotheek" styleClass="kop"/>
             <h:panelGrid columns = "4">
                 Zoekterm (deel van boeknummer, titel, auteur of ISBN)
@@ -32,10 +34,9 @@
                  rendered="#{not empty boekenBean.boeken}"
                  >
 
-                <h:dataTable value="#{boekenBean.boeken}"
+                <h:dataTable value="#{boekenBean.boeken}" 
                              styleClass ="table"
-                             headerClass="tableHeader" 
-                             rowClasses="tableRow"
+                             headerClass="tableHeader"   
                              style="width: 1500px"
                              var="item"
                              rendered="#{not empty boekenBean.boeken}"
@@ -79,59 +80,60 @@
 
                     <h:column>
                         <f:facet name ="header">
+                            <h:outputLabel value ="Categorie"/>
+                        </f:facet>
+                        <h:outputLabel value ="#{item.categorieOmschrijving}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name ="header">
                             <h:outputLabel value ="Locatie"/>
                         </f:facet>
                         <h:outputLabel value ="#{item.locatie}"/>
                     </h:column>
 
-                    <h:column>
-                        <f:facet name ="header">
-                            <h:outputLabel value ="categorie_ID"/>
-                        </f:facet>
-                        <h:outputLabel value ="#{item.categorie_ID}"/>
-                    </h:column>
-
-                    <h:column>
-                        <f:facet name ="header">
-                            <h:outputLabel value ="Omschrijving"/>
-                        </f:facet>
-                        <h:outputLabel value ="#{item.categorieOmschrijving}"/>
-                    </h:column>
 
 
                 </h:dataTable>
             </div>
 
             <!--knoppen an onderkant in 3 colommen-->
+
+            <!--knoppen an onderkant in 3 colommen-->
             <h:panelGrid columns = "3"
-                         width="1000px">
+                         columnClasses="colKlein, colGroot"
+                         >
                 <h:panelGroup>
-                     <!-- werkt alleen als je een boek geselecteerd hebt-->
-                    <h:commandButton value="Uitlenen / Innemen" action = "#{boekenBean.uitlenenInnemen()}" style="knopBreed"
-                                     rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
-                     <br/>
-                    <h:commandButton value="Categorien" action = "#{boekenBean.categorien()}" style="knopBreed"/>
+                    <!-- werkt alleen als je een boek geselecteerd hebt-->
+                    <h:commandButton value="Uitlenen / Innemen" action = "#{boekenBean.uitlenenInnemen()}" styleClass="knopBreed"
+                                     disabled="#{empty boekenBean.geselecteerdBoek.titel}"/>
+                    <br/>
+                    <h:commandButton value="Categorien" action = "#{boekenBean.categorien()}" styleClass="knopBreed"/>
                 </h:panelGroup>
-                
                 <h:panelGroup> 
                     <!-- werkt alleen als je een boek geselecteerd hebt-->
-                    <h:commandButton value="Exemplaar Toevoegen" action = "#{boekenBean.exemplaarToevoegen()}" style="knopBreed"
-                                     rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
-                    <br/>
-                    <h:commandButton value="Overzichten" action = "#{boekenBean.overzichten()}" style="knopBreed"/>
+                    <div align="left">
+                        <h:commandButton value="Exemplaar Toevoegen" action = "#{boekenBean.exemplaarToevoegen()}" styleClass="knopBreed"
+                                         disabled="#{empty boekenBean.geselecteerdBoek.titel}"/>
+                        <br/>
+                        <h:commandButton value="Overzichten" action = "#{boekenBean.overzichten()}" styleClass="knopBreed"/>
+                    </div>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <h:commandButton value="Titel toevoegen" action = "#{boekenBean.titelToevoegen()}" style="knopBreed"/>
+                    <h:commandButton value="Titel toevoegen" action = "#{boekenBean.titelToevoegen()}" styleClass="knopBreed"/>
                     <br/>
-                    <h:commandButton value="Medewerkers" action = "#{boekenBean.medewerkers()}" style="knopBreed"/>
+                    <h:commandButton value="Medewerkers" action = "#{boekenBean.medewerkers()}" styleClass="knopBreed"/>
                 </h:panelGroup>
             </h:panelGrid>
+
+
+
 
 
             <!-- dit displayed het geselecteerde boek -->
             <h:outputLabel value="Geselecteerd : #{boekenBean.geselecteerdBoek.titel}"
                            rendered="#{not empty boekenBean.geselecteerdBoek.titel}"/>
-             
+
             <!--deze displayed error berichten etc.-->
             <h:messages/>
         </h:body>

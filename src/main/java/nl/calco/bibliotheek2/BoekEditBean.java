@@ -132,6 +132,23 @@ public class BoekEditBean implements Serializable {
         this.checkInput();
         FacesContext context = FacesContext.getCurrentInstance();
 
+        //check dat titel niet bestaat en isbn uniek is
+        List<Boek> boeken;
+        try {
+            Database database = new Database();
+            boeken = database.getBoeken(this.boek.getTitel());
+            if (boeken.size() > 0) {
+                context.addMessage(null, new FacesMessage("Titel bestaat al"));
+            }
+            boeken = database.getBoeken(this.boek.getIsbn());
+            if (boeken.size() > 0) {
+                context.addMessage(null, new FacesMessage("ISBNF bestaat al"));
+            }
+        } catch (SQLException | NamingException ex) {
+            LOGGER.log(Level.SEVERE, "Error {0}", ex);
+            System.out.println(ex.getMessage());
+        }
+
         //als er geen fouten zijn vooer het dan door :)
         // beetje hackie, maar dit checken door te kijken of er geen messages zijn
         if (context.getMessageList().isEmpty()) {
@@ -234,8 +251,8 @@ public class BoekEditBean implements Serializable {
                 try {
                     Database database = new Database();
                     database.insertExemplaar(boek.getBoek_ID(),
-                                Integer.parseInt(exemplaar_aantal) + 1,
-                                Integer.parseInt(exemplaar_aantal) + 1 + Integer.parseInt(exemplaren));
+                            Integer.parseInt(exemplaar_aantal) + 1,
+                            Integer.parseInt(exemplaar_aantal) + 1 + Integer.parseInt(exemplaren));
                 } catch (SQLException | NamingException ex) {
                     LOGGER.log(Level.SEVERE, "Error {0}", ex);
                     System.out.println(ex.getMessage());

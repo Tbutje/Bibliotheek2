@@ -49,10 +49,11 @@
 
                 </h:panelGroup>
             </h:panelGrid>
-            <h:panelGrid columns ="2" styleClass="panelColumns" cellspacing="4" cellpadding="4">
+            <h:panelGrid columns ="2" >
+
                 <h:panelGroup>
                     <!-- boek tabel hier -->
-                    <div style="width: 300; 
+                    <div style="width: 400px; 
                          height: 200px; 
                          display: inline-block; 
                          overflow-x: auto;
@@ -63,17 +64,17 @@
                                      styleClass ="table"
                                      headerClass="tableHeader" 
                                      rowClasses="tableRow"
-                                     style="width: 300px"
+                                     style="width: 500px"
                                      var="item"
                                      >
 
-                            <!-- colom keuzes hier. item is de row-->
-                            <h:column>
+                                     <!-- colom keuzes hier. item is de row-->
+                                     <h:column>
                                 <f:facet name ="header">
                                     <h:outputLabel value ="Exemplaar_ID"/>
                                 </f:facet>
 
-                                <h:commandLink value ="#{item.exemplaar_ID}" action="#{uitlenenInnemenBean.setGeselecteerdExemplaar(item)}"/>
+                                <h:commandLink value ="#{item.exemplaar_ID}" action="#{uitlenenInnemenBean.selecteerExemplaar(item.exemplaar_ID)}"/>
 
                             </h:column>
 
@@ -127,13 +128,13 @@
                                      styleClass="knopBreed"
                                      onclick="return confirm('Weet u zeker dat het boek   \n\
                                      #{uitlenenInnemenBean.geselecteerdExemplaar.exemplaarVolgnummer} wilt innemen?')"
-                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar}"
+                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening.medewerker.fullNaam()}"
                                      />
                     <br/>
                     <h:commandButton value="Uitlenen" 
                                      action="#{uitlenenInnemenBean.uitlenen()}"
                                      styleClass="knopBreed"
-                                     disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar}"
+                                     disabled ="#{not empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening.medewerker.fullNaam()}"
                                      />
                     <br/>
                     <h:commandButton value="Exemplaar bewerken" 
@@ -150,6 +151,7 @@
 
                 </h:panelGroup>
             </h:panelGrid>
+          
             <h:commandButton value="Annuleren" 
                              action="#{uitlenenInnemenBean.annuleren()}"
                              styleClass="knop"/>

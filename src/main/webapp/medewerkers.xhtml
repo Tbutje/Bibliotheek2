@@ -16,18 +16,18 @@
 
 
             <!-- Medewerker tabel hier -->
-            <div style="width: 1500px; 
-                 height: 300px; 
+            <div style="width: 500px; 
+                 height: 200px; 
                  display: inline-block; 
                  overflow-x: auto;
                  overflow-y: auto;"
                  >
 
-                <h:dataTable value="#{medewerkersBean.medewerkers}"
+                <h:dataTable value="#{medewerkersBean.medewerkers}" 
                              styleClass ="table"
                              headerClass="tableHeader" 
-                             rowClasses="tableRow"
-                             style="width: 1500px"
+                             rowClasses="tableRow,tableRowEven"
+
                              var="item"
                              >
 
@@ -50,17 +50,20 @@
             </div>
 
             <!--knoppen an onderkant in 4 colommen-->
-            <h:panelGrid>
-            <br/>
-            <h:commandButton value="Toon boeken" action = "#{medewerkersBean.toonBoeken()}" style="knopBreed"
-                              disabled="#{empty medewerkersBean.geselecteerdeMedewerker}"/>
-
-            <!-- werkt alleen als je een Medewerker geselecteerd hebt-->
-            <h:commandButton value="Medewerker wijzigen" action = "#{medewerkersBean.medewerkerWijzigen()}" style="knopBreed"
-                             disabled="#{empty medewerkersBean.geselecteerdeMedewerker}"/>
-            <h:commandButton value="Medewerker Toevoegen" action = "#{medewerkersBean.medewerkerToevoegen()}" style="knopBreed"/>
-            <br/>
+            <h:panelGrid columns="3">
+                <h:panelGroup> 
+                    <h:commandButton value="Toon boeken" action = "#{medewerkersBean.toonBoeken()}" style="knopBreed"
+                                     disabled="#{empty medewerkersBean.geselecteerdeMedewerker}"/>
+                </h:panelGroup>
+                <h:panelGroup>   <!-- werkt alleen als je een Medewerker geselecteerd hebt-->
+                    <h:commandButton value="Medewerker wijzigen" action = "#{medewerkersBean.medewerkerWijzigen()}" style="knopBreed"
+                                     disabled="#{empty medewerkersBean.geselecteerdeMedewerker}"/>
+                </h:panelGroup>
+                <h:panelGroup>  
+                    <h:commandButton value="Medewerker Toevoegen" action = "#{medewerkersBean.medewerkerToevoegen()}" style="knopBreed"/>
+                </h:panelGroup>
             </h:panelGrid>
+            <br/>
             <h:commandButton value="terug" action = "#{medewerkersBean.terug()}" style="knopBreed"/>
             <br/>
 

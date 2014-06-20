@@ -38,8 +38,16 @@ public class UitlenenInnemenBean implements Serializable {
         return geselecteerdExemplaar;
     }
 
-    public void setGeselecteerdExemplaar(Exemplaar geselecteerdExemplaar) {
-        this.geselecteerdExemplaar = geselecteerdExemplaar;
+
+    
+    public void selecteerExemplaar(Integer exemplaar_id){
+         try {
+                Database database = new Database();
+                this.geselecteerdExemplaar = database.getExemplaar(exemplaar_id);
+            } catch (SQLException | NamingException ex) {
+                LOGGER.log(Level.SEVERE, "Error {0}", ex);
+                System.out.println(ex.getMessage());
+            }
     }
 
     public Boek getBoek() {
@@ -95,7 +103,7 @@ public class UitlenenInnemenBean implements Serializable {
             System.out.println(ex.getMessage());
         }
         geselecteerdExemplaar.refresh();
-      //  refresh();
+        //  refresh();
     }
 
     public String uitlenen() {
@@ -163,8 +171,10 @@ public class UitlenenInnemenBean implements Serializable {
             System.out.println(ex.getMessage());
         }
 
-        //en refresh
-        geselecteerdExemplaar.refresh();
+        //en refresh als niet leeg is
+        if (geselecteerdExemplaar != null) {
+            geselecteerdExemplaar.refresh();
+        }
         this.refresh();
 
     }

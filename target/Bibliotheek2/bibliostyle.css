@@ -20,7 +20,7 @@ body{
 
 .grijze_achtergrond
 {
-    background-color: #ccccff
+    background-color:#ebe4ea;
 }
 
 /***** TABLES */
@@ -41,12 +41,20 @@ body{
 {
     text-align: left;
     background: linear-gradient(#eeeeff, #ccccff);
+    font-weight: normal;
+    font-size:12pt;
 }
 
 .tableRow
 {
     background:white;
 }
+
+.tableRowEven
+{
+    background:#cccccc;
+}
+
 
 
 /***** Knoppen */
@@ -75,3 +83,14 @@ body{
 .panelColumns td {
     vertical-align: top; 
 } 
+
+
+//**panelgrid**
+
+.colKlein{
+    width:200px;
+}
+
+.colGroot{
+    width:500px;
+}

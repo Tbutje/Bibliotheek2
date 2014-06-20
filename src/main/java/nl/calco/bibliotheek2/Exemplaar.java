@@ -26,6 +26,7 @@ public class Exemplaar implements Serializable {
     private Integer exemplaarVolgnummer;
     private LocalDate datumAanschaf;
     private Boolean vermist;
+
     private Uitlening huidigeUitlening = null;
     private Boolean uitlening_set = false;
     private Boek boek = null;
@@ -44,7 +45,12 @@ public class Exemplaar implements Serializable {
         return boek;
     }
 
+    public Boolean isVermist() {
+        return vermist;
+    }
+
     public Uitlening getHuidigeUitlening() {
+
         if (huidigeUitlening == null && exemplaar_ID != null && !uitlening_set) {
             try {
                 Database database = new Database();
@@ -58,6 +64,11 @@ public class Exemplaar implements Serializable {
             }
         }
         return huidigeUitlening;
+
+    }
+
+    public Boolean isUitlening_set() {
+        return uitlening_set;
     }
 
     public Integer getExemplaar_ID() {
