@@ -34,7 +34,7 @@ public class BoekEditBean implements Serializable {
 
     private Boek boek = null;
     private List<SelectItem> categorieSelectie = null;
-    private String exemplaren;
+    private String exemplaren = null;
     private Boolean nieuw_boek = false;
     //extra toevoegingen om ook voor exemplaren te gebruiken
 
@@ -58,6 +58,9 @@ public class BoekEditBean implements Serializable {
     }
 
     public String getExemplaren() {
+        if(exemplaren == null){
+            exemplaren = getExemplaar_aantal();
+        }
         return exemplaren;
     }
 
@@ -174,6 +177,7 @@ public class BoekEditBean implements Serializable {
             }
 
             // clear scherm
+            terug();
         }
 
     }
@@ -260,6 +264,8 @@ public class BoekEditBean implements Serializable {
             }
 
             // clear scherm
+            terug();
+            
         }
 
     }
@@ -386,4 +392,5 @@ public class BoekEditBean implements Serializable {
 
         return exemplaar_aantal;
     }
+    
 }

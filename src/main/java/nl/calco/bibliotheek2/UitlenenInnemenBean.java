@@ -104,6 +104,7 @@ public class UitlenenInnemenBean implements Serializable {
         }
         geselecteerdExemplaar.refresh();
         //  refresh();
+        refresh();
     }
 
     public String uitlenen() {

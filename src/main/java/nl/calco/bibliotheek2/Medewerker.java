@@ -68,7 +68,7 @@ public class Medewerker implements Serializable {
         if (tussenVoegsel == null || tussenVoegsel.isEmpty()) {
             return voornaam + " " + achternaam;
         } else {
-            return voornaam + " " + tussenVoegsel + achternaam;
+            return voornaam + " " + tussenVoegsel + " " + achternaam;
         }
     }
 
