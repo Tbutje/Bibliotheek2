@@ -58,7 +58,7 @@ public class BoekEditBean implements Serializable {
     }
 
     public String getExemplaren() {
-        if(exemplaren == null){
+        if(exemplaren == null & !this.nieuw_boek){
             exemplaren = getExemplaar_aantal();
         }
         return exemplaren;

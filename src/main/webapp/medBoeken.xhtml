@@ -85,8 +85,9 @@
             <!--knoppen an onderkant in 3 colommen-->
             <h:panelGrid columns="2">
                 <h:commandButton value="Boek innemen" action = "#{medBoekenBean.boekInnemen()}" style="knopBreed"
-                                 disabled="#{empty medBoekenBean.geselecteerdeUitlening}"/>
+                                 disabled="#{empty medBoekenBean.geselecteerdeUitlening or not empty medBoekenBean.geselecteerdeUitlening.datumInleveren}"/>
                 <h:commandButton value="Innemen terugdraaien" action = "#{medBoekenBean.innemenTerugDraaien()}" style="knopBreed"
+                                 disabled="#{empty medBoekenBean.geselecteerdeUitlening.datumInleveren}"
                                  />
                 <h:commandButton value="terug" action = "#{medBoekenBean.terug()}" style="knopBreed"/>
             </h:panelGrid>

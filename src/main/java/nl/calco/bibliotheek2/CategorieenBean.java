@@ -72,10 +72,11 @@ public class CategorieenBean implements Serializable {
             LOGGER.log(Level.SEVERE, "Error {0}", ex);
             System.out.println(ex.getMessage());
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("De database kan niet worden benaderd"));
+            context.addMessage(null, new FacesMessage("De Categorie is nog toegewezen aan een boek"));
         }
         //zet categorieen weer op nulll zodat deze weer opnieuw uit de db gehaald worden
         this.categorieen = null;
+        this.geselecteerdeCategorie = null;
     }
 
     public String nieuweCategorie() {
