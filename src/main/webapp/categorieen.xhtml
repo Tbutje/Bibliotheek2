@@ -55,8 +55,7 @@
                     <h:commandButton value="Verwijderen" 
                                      actionListener = "#{categorieenBean.verwijderCategorie(item.categorieID)}"
                                      styleClass="knop"
-                                     onclick="return confirm ('Weet u zeker dat u \n\
-                                     #{categorieenBean.geselecteerdeCategorie.omschrijving} wilt verwijderen?')"
+                                     onclick="return confirm ('Weet u zeker dat u #{categorieenBean.geselecteerdeCategorie.omschrijving} wilt verwijderen?')"
                                       rendered="#{not empty categorieenBean.geselecteerdeCategorie}"/>
 
                 </h:panelGroup>

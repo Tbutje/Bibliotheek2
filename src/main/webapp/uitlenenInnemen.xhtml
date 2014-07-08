@@ -126,8 +126,7 @@
                     <h:commandButton value="Innemen" 
                                      action="#{uitlenenInnemenBean.innemen()}"
                                      styleClass="knopBreed"
-                                     onclick="return confirm('Weet u zeker dat het boek   \n\
-                                     #{uitlenenInnemenBean.geselecteerdExemplaar.exemplaarVolgnummer} wilt innemen?')"
+                                     onclick="return confirm('Weet u zeker dat u exemplaar #{uitlenenInnemenBean.geselecteerdExemplaar.exemplaarVolgnummer} wilt innemen?')"
                                      disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening.medewerker.fullNaam()}"
                                      />
                     <br/>
@@ -145,7 +144,7 @@
                     <h:commandButton value="Exemplaar verwijderen" 
                                      action="#{uitlenenInnemenBean.verwijderen()}"
                                      styleClass="knopBreed"
-                                     onclick="return confirm('Weet u zeker dat het boek wilt verwijderen, dit verwijderd ook de uitleen gesschiedenis?')"
+                                     onclick="return confirm('Weet u zeker dat het exemplaar wilt verwijderen, dit verwijderd ook de uitleen gesschiedenis?')"
                                      disabled ="#{empty uitlenenInnemenBean.geselecteerdExemplaar.huidigeUitlening}"/>
                     <br/>
 

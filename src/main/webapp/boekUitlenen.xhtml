@@ -85,8 +85,7 @@
                     <h:commandButton value="Uitlenen" 
                                      action="#{boekUitlenenBean.uitlenen()}"
                                      styleClass="knop"
-                                     onclick="return confirm ('Weet u zeker dat het boek aan \n\
-                                     #{boekUitlenenBean.geselecteerdeMedewerker.fullNaam()} wilt uitlenen?')"
+                                     onclick="return confirm ('Weet u zeker dat het boek aan #{boekUitlenenBean.geselecteerdeMedewerker.fullNaam()} wilt uitlenen?')"
                                       disabled ="#{empty boekUitlenenBean.geselecteerdeMedewerker}"
                                       />
                     
